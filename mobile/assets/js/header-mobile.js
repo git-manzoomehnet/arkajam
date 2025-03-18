@@ -35,7 +35,10 @@ menuBar.addEventListener("click", function () {
     } else {
         // مخفی کردن آیتم‌ها از بالا به پایین (دونه‌دونه)
         menuBar.classList.remove("activeMenuBar")
-        megaHeader.classList.remove("activeListHeader");
+        setTimeout(() => {
+            
+            megaHeader.classList.remove("activeListHeader");
+        }, 10);
 
         lists.forEach((element, index) => {
             setTimeout(() => {
@@ -105,13 +108,13 @@ projectListLiItem.addEventListener("click" , function (e) {
 
 })
 }  
-else{
-    contactUsLiItem.addEventListener("click" , function (e) {
-        e.preventDefault()
-          document.querySelector("footer").scrollIntoView();
-          closeHeader()
-      })
-}
+// else{
+//     contactUsLiItem.addEventListener("click" , function (e) {
+//         e.preventDefault()
+//           document.querySelector("footer").scrollIntoView();
+//           closeHeader()
+//       })
+// }
 
 
 function closeHeader(params) {
@@ -132,6 +135,7 @@ function closeHeader(params) {
         }
     }, lists.length * 100 + 200); // 200ms اضافه برای اطمینان
     headerFlag=false
+    megaHeader.classList.remove("activeListHeader");
 
 }
 

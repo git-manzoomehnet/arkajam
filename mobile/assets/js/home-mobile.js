@@ -7,6 +7,11 @@ projects.forEach((element,i) => {
 document.addEventListener("DOMContentLoaded", function() {
     setTimeout(() => {
         document.querySelector(".loaderHome").classList.add("endLoader");
+        setTimeout(() => {
+            
+            document.querySelector(".section1 video").setAttribute("autoplay","")
+            document.querySelector(".section1 video").play()
+        }, 1000);
     }, 6000); 
     setTimeout(() => {
         
@@ -23,3 +28,19 @@ scrollBtmHomePage.addEventListener("click", function (params) {
 
 })
 
+
+let pageQuery = document.querySelector(".pageQuery")
+if (pageQuery) {
+    if (pageQuery.innerHTML.trim()=="about-us") {
+        document.querySelector(".section2").scrollIntoView({ behavior: "smooth" });
+    }
+    else if (pageQuery.innerHTML.trim()=="product-list") {
+        document.querySelector(".section4").scrollIntoView({ behavior: "smooth" });
+    }
+    else if (pageQuery.innerHTML.trim()=="project-list") {
+        document.querySelector(".section5").scrollIntoView({ behavior: "smooth" });
+    }
+    else if (pageQuery.innerHTML.trim()=="contact") {
+        document.querySelector("footer").scrollIntoView({ behavior: "smooth" });
+    }
+}

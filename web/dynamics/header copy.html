@@ -84,7 +84,7 @@
         </div>
     </header>
 
-    <div class="megaHeader z-[10000] bg-StarDust950 h-svh w-svw inset-0 fixed ease-[cubic-bezier(0.5,0,0.75,0)] duration-1000 -translate-y-full [&.activeMegaMenu]:translate-y-0">
+    <div class="megaHeader  z-[10000] bg-StarDust950 h-svh w-svw inset-0 fixed ease-[cubic-bezier(0.5,0,0.75,0)] duration-1000 -translate-y-full [&.activeMegaMenu]:translate-y-0">
         <basis core="print" datamembername="db.def-video">
        
             <face filter="RowNumber=1">
@@ -96,26 +96,26 @@
                 
             </face>
         </basis>
-        <div class="menuItem flex flex-col duration-1000 justify-center items-center h-svh w-[43.75%] [&.activeListMenu]:bg-StarDust50/[0.35] [&.activeListMenu]:backdrop-blur-md z-1 relative mx-auto">
+        <div class="menuItem activeListMenu flex flex-col duration-1000 justify-center items-center h-svh w-[43.75%] [&.activeListMenu]:bg-StarDust50/[0.35] [&.activeListMenu]:backdrop-blur-md z-1 relative mx-auto">
         <div class="innerMenuItem">
             <ul class="mb-16 translate-y-[40px] w-full max-w-[400px]">
                 <li class="mb-6 overflow-hidden text-center">
-                    <a style="transform: translateY(100%);" class="btn-4 aboutUsLiItem duration-500 w-full block font-IRANSansWebFaNum400 text-xl text-StarDust50" href="/about-us.bc" title="درباره‌ی ما">
+                    <a style="transform: translateY(100%);" class="btn-4 aboutUsLiItem duration-500 w-full block font-IRANSansWebFaNum400 text-xl text-StarDust50" href="/?page=about-us" title="درباره‌ی ما">
                         درباره‌ی ما
                     </a>
                 </li>
                 <li class="mb-6 overflow-hidden text-center">
-                    <a style="transform: translateY(100%);" class="btn-4 duration-500 prodoctListLiItem w-full block font-IRANSansWebFaNum400 text-xl text-StarDust50" href="/product-list.bc" title="محصولات">
+                    <a style="transform: translateY(100%);" class="btn-4 duration-500 prodoctListLiItem w-full block font-IRANSansWebFaNum400 text-xl text-StarDust50" href="/?page=product-list" title="محصولات">
                         محصولات
                     </a>
                 </li>
                 <li class="mb-6 overflow-hidden text-center">
-                    <a style="transform: translateY(100%);" class="btn-4 duration-500 projectListLiItem w-full block font-IRANSansWebFaNum400 text-xl text-StarDust50" href="/project-list.bc" title="پروژه‌ها">
+                    <a style="transform: translateY(100%);" class="btn-4 duration-500 projectListLiItem w-full block font-IRANSansWebFaNum400 text-xl text-StarDust50" href="/?page=project-list" title="پروژه‌ها">
                         پروژه‌ها
                     </a>
                 </li>
                 <li class="mb-6 overflow-hidden text-center">
-                    <a style="transform: translateY(100%);" class="btn-4 duration-500 w-full block font-IRANSansWebFaNum400 text-xl text-StarDust50 contactUsLiItem" href="#" title="پروژه‌ها">
+                    <a style="transform: translateY(100%);" class="btn-4 duration-500 w-full block font-IRANSansWebFaNum400 text-xl text-StarDust50 contactUsLiItem" href="/?page=contact" title="تماس با ما">
                       تماس با ما
                     </a>
                 </li>
@@ -128,30 +128,28 @@
             <div class="social flex justify-center items-center gap-x-6">
                 <basis core="print" datamembername="db.social">
                 
-                    <face filter="text='تلگرام'">
+                    <face filter="text like 'تلگرام'">
                         <a href="https://t.me/@largetext" target="_blank" title="telegram">
-                            <img src="[##cms.cms.cdn##]/images/telegramHeader.svg" alt="telegram">
+                            <img src="[##cms.cms.cdn##]/images/linkdin.svg" alt="telegram">
+                            
                         </a>
                         
                     </face>
-                </basis>
-                <basis core="print" datamembername="db.social">
-                    
-                    <face filter="text='لینکدین'">
+               
+                    <face filter="text like 'لینکدین'">
                         <a href="https://www.linkedin.com/@largetext" target="_blank" title="linkdin">
-                            <img src="[##cms.cms.cdn##]/images/linkdin.svg" alt="linkdin">
+                            <img src="[##cms.cms.cdn##]/images/telegramHeader.svg" alt="linkdin">
                         </a>
                     </face>
-                </basis>
-                <basis core="print" datamembername="db.social">
+             
+               
                     
-                    <face filter="text='واتس اپ'">
+                    <face filter="text like 'واتس اپ'">
                         <a href="https://wa.me/@largetext" target="_blank" title="whatsapp">
                             <img src="[##cms.cms.cdn##]/images/whatsapp.svg" alt="whatsapp">
                         </a>
-                        <basis core="print" datamembername="db.social">
-                            
-                            <face filter="text='اینستاگرام'">
+                    </face>
+                            <face filter="text like 'اینستاگرام'">
                                 <a href="https://instagram.com/@largetext" target="_blank" title="instagram">
                                     <img src="[##cms.cms.cdn##]/images/instagram.svg" alt="instagram">
                                 </a>

@@ -8,71 +8,77 @@ const projectBoxes = document.querySelectorAll('.projectBox');
 
 
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
         document.querySelector(".loaderHome").classList.add("endLoader");
+        setTimeout(() => {
+
+            document.querySelector(".section1 video").setAttribute("autoplay", "")
+            document.querySelector(".section1 video").play()
+        }, 1000);
     }, 6000); // Loader disappears after 3 seconds
 });
 
 
 
+
 projectBoxes.forEach(element => {
     element.classList.add("topBoxes")
-    
+
 });
 
 let projects = document.querySelectorAll(".section3 .productBox")
 
 projectBoxes.forEach((box, index) => {
-                    
-    box.classList.add(`delay-[${Math.floor(0.1*(index+1)*10)/10}s]`);
+
+    box.classList.add(`delay-[${Math.floor(0.1 * (index + 1) * 10) / 10}s]`);
 });
 const homeSlider = new Swiper('.homeSlider', {
     // Optional parameters
     mousewheel: true,
     speed: 1000,
-    allowTouchMove:false,
+    allowTouchMove: false,
     on: {
         slideChange: function () {
-            if(this.activeIndex==2){
+            if (this.activeIndex == 2) {
                 console.log("2222222");
-                
+
                 projectBoxes.forEach((box, index) => {
                     box.classList.add("topBoxes");
-                  });
+                });
                 projectBoxes.forEach((box, index) => {
                     box.classList.remove("bottomBoxes");
-                  });
-              
+                });
+
             }
-           else  if (changeFlag > this.activeIndex ) {
-            console.log(this.activeIndex);
-            
+            else if (changeFlag > this.activeIndex) {
+                console.log(this.activeIndex);
+
                 lSection2.classList.add("leftAnim")
                 lSection2.classList.remove("rightAnim")
 
-              
-            } 
-           
-            else if(this.activeIndex==4){
+
+            }
+
+            else if (this.activeIndex == 4) {
                 projectBoxes.forEach((box, index) => {
                     box.classList.remove("topBoxes");
-                  });
+                });
                 projectBoxes.forEach((box, index) => {
                     box.classList.add("bottomBoxes");
-                  });
-              
+                });
+
             }
             else {
                 lSection2.classList.remove("leftAnim")
                 lSection2.classList.add("rightAnim")
-               
 
-                
+
+
             }
-            
+
             changeFlag = this.activeIndex
-         
+
         },
     },
 });
@@ -83,7 +89,7 @@ scrollBtmHomePage.addEventListener("click", function (params) {
 
 
 let cmsType = document.querySelector(".cmsType")
-if (cmsType.innerHTML.trim()==1) {
+if (cmsType.innerHTML.trim() == 1) {
     homeSlider.slideTo(4, 1000)
 }
 
@@ -103,13 +109,13 @@ const config = {
             detectRetina: true
         }
     },
-   
+
 };
 const customIcon = L.icon({
-        iconUrl: '/images/locationIcon.png',
-        iconSize: [28, 28],
-        iconAnchor: [12, 41]
-    });
+    iconUrl: '/images/locationIcon.png',
+    iconSize: [28, 28],
+    iconAnchor: [12, 41]
+});
 // استفاده از لایه تاریک CartoDB
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
     attribution: '© OpenStreetMap contributors © CartoDB'
@@ -117,4 +123,21 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
 
 
 L.marker(config.center, { icon: customIcon })
-        .addTo(map)
+    .addTo(map)
+
+
+let pageQuery = document.querySelector(".pageQuery")
+if (pageQuery) {
+    if (pageQuery.innerHTML.trim()=="about-us") {
+        homeSlider.slideTo(1, 1000)
+    }
+    else if (pageQuery.innerHTML.trim()=="product-list") {
+        homeSlider.slideTo(2, 1000)
+    }
+    else if (pageQuery.innerHTML.trim()=="project-list") {
+        homeSlider.slideTo(3, 1000)
+    }
+    else if (pageQuery.innerHTML.trim()=="contact") {
+        homeSlider.slideTo(4, 1000)
+    }
+}

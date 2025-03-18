@@ -1,4 +1,4 @@
-<basis core="dbsource" source="media" name="db" lid="1" catid="2326">
+<basis core="dbsource" source="media" name="db" lid="1" catid="2329">
     <member type="list" name="def-video" perpage="10" pageno="1" />
 </basis>
 <basis core="dbsource" name="db" source="basiscore" lid="1" mid="1" usedforid="2374142">
@@ -39,13 +39,17 @@
     <span class="hidden cmsType">
         [##cms.query.type##]
     </span>
+    <span class="hidden pageQuery">
+        
+        [##cms.query.page##]
+    </span>
         <basis core="call" file="header2.inc"  pageindex="[##cms.cms.pageindex##]"/>
 
-        <div class="loaderHome flex items-center justify-center fixed z-[10000999999999] inset-0 bg-StarDust800 duration-1000 w-svw h-svh [&.endLoader]:-translate-y-[100%]">
+        <div class="loaderHome flex items-center justify-center fixed z-[10000999999999] inset-0 bg-StarDust800 duration-1000 w-svw h-svh [&.endLoader]:-translate-y-[100%]" style="background:#000">
             <basis core="print" datamembername="db.loader">
              
                 <face>
-                    <video src="/@largeIMG" autoplay muted class="max-w-[187px]"></video>
+                    <video src="/@largeIMG" autoplay muted class="max-w-[187px]" style="width:350px"></video>
                     
                 </face>
             </basis>
@@ -57,7 +61,7 @@
 
                     <face>
 
-                        <video class="w-full h-full object-cover" src="/@largeIMG" muted autoplay loop></video>
+                        <video class="w-full h-full object-cover" src="/@largeIMG" muted  loop></video>
                     </face>
                 </basis>
             </div>
@@ -175,7 +179,7 @@
                       
                         <face>
                             
-                            <div class="projectBox mb-8">
+                            <div class="projectBox group/projectBox mb-8">
                                 <a href="/@link" title="@title">
                                     <h4 class="mb-2 font-IRANSansWebFaNum700 text-lg leading-8 text-StarDust400">
                                         @title
@@ -194,8 +198,8 @@
                                             مشاهده‌ی پروژه
                                         </span>
                                     </div>
-                                    <div class="imgS relative">
-                                        <img class="duration-500 w-full grayscale-100 group-hover/projectBox:grayscale-0"
+                                    <div class="imgS relative overflow-hidden">
+                                        <img class="duration-500 w-full grayscale-100 group-hover/projectBox:grayscale-0 group-hover/projectBox:scale-125"
                                             src="[##cms.cms.cdn##]/@image" alt="@title" />
                                         <span
                                             class="font-Helvetica400 number left-0 right-0 text-center leading-[105.79px] text-[92px] text-StarDust50 absolute bottom-2">

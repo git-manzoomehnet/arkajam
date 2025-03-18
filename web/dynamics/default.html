@@ -40,13 +40,17 @@
     <span class="hidden cmsType">
         [##cms.query.type##]
     </span>
+    <span class="hidden pageQuery">
+        
+        [##cms.query.page##]
+    </span>
     <main class="homePage bg-StarDust950 h-svh overflow-hidden" dir="rtl">
         <basis core="call" file="header2.inc" />
-        <div class="loaderHome flex items-center justify-center fixed z-[10000999999999] inset-0 bg-StarDust800 duration-1000 w-svw h-svh [&.endLoader]:-translate-y-[100%]">
+        <div class="loaderHome flex items-center justify-center fixed z-[10000999999999] inset-0 bg-black duration-1000 w-svw h-svh [&.endLoader]:-translate-y-[100%]" style="background:#000">
          <basis core="print" datamembername="db.loader">
           
              <face>
-                 <video src="/@largeIMG" autoplay muted class="w-[260px]"></video>
+                 <video src="/@largeIMG" autoplay muted class="w-[260px]" style="width:350px"></video>
                  
              </face>
          </basis>
@@ -61,7 +65,7 @@
                         <basis core="print" datamembername="db.def-video">
 
                             <face>
-                                <video autoplay muted loop class="w-full h-full object-cover" src="/@largeIMG"></video>
+                                <video muted loop class="w-full h-full object-cover" src="/@largeIMG"></video>
 
                             </face>
                         </basis>
@@ -140,8 +144,8 @@
                                 <div
                                     class="productBox group-[&.swiper-slide-active]/section3:!opacity-100 group-[&.swiper-slide-active]/section3:!translate-y-0 duration-1000 opacity-0 odd:translate-y-100 even:-translate-y-100 group/productBox">
                                     <a href="/product-list.bc?catid=@catid">
-                                        <div class="imgS mb-6">
-                                            <img class="w-full duration-500 grayscale-100 group-hover/productBox:grayscale-0"
+                                        <div class="imgS mb-6 overflow-hidden">
+                                            <img class="w-full group-hover/productBox:scale-125 duration-500 grayscale-100 group-hover/productBox:grayscale-0"
                                                 src="/@image" alt="@title" />
                                         </div>
                                         <h2 class="font-IRANSansWebFaNum700 mb-1 text-lg text-StarDust200">
@@ -197,8 +201,8 @@
                                                 @title
                                             </span>
                                         </div>
-                                        <div class="imgS mt-6">
-                                            <img class="w-full duration-500 grayscale-100 group-hover/productBox:grayscale-0"
+                                        <div class="imgS mt-6 overflow-hidden">
+                                            <img class="w-full duration-500 grayscale-100 group-hover/productBox:grayscale-0 group-hover/productBox:scale-125"
                                                 src="[##cms.cms.cdn##]/@image" alt="@title" />
                                         </div>
                                       
@@ -267,8 +271,8 @@
                                                 </span>
                                             </div>
 
-                                            <div class="imgS relative">
-                                                <img class="duration-500 w-full grayscale-100 group-hover/projectBox:grayscale-0"
+                                            <div class="imgS relative overflow-hidden">
+                                                <img class="duration-500 w-full grayscale-100 group-hover/projectBox:grayscale-0 group-hover/projectBox:scale-125"
                                                     src="[##cms.cms.cdn##]/@00206X00220prp" alt="@title" />
                                                 <span
                                                     class="font-Helvetica400 left-0 right-0 text-center leading-[105.79px] text-[92px] text-StarDust50 absolute -bottom-5">

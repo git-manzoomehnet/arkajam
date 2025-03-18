@@ -1,16 +1,33 @@
+<basis core="dbsource" name="db" source="basiscore" lid="1" mid="1" usedforid="2374142">
+    <member name="aboutus" type="view" />
+</basis>
+<basis core="dbsource" source="userbehavior" name="db" lid="1" userid="100001" usedforid="[##cms.query.id##]">
+    <member request="listcomment" type="list" name="commentlist" link="product.bc" />
+</basis>
+
+<basis core="dbsource" source="basiscore" mid="20" name="db" lid="1">
+    <member name="products" type="tree" request="cat" parentid="213460" />
+</basis>
+<basis core="dbsource" name="db" source="media" lid="1" sourcemid="1" usedforid="2374142"> <member name="aboutGallery" type="list"/> </basis>	
+
 <!DOCTYPE html>
 <html lang="fa">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="assets/css/outputDesktop.css">
+    <title>لندینگ</title>
+    <meta name="description" content="صفحه لندینگ آرکاجام">
+    <link rel="stylesheet" href="[##cms.cms.cdn##]/css/swiper-bundle.min.css" />
+
+    <basis core="call" file="style.inc" />
 </head>
 
 <body>
-    <main class="landingPage" dir="rtl">
+    <main class="landingPage bg-StarDust50" dir="rtl">
+        <basis core="call" file="header2.inc" />
         <section class="section1 relative">
+
             <div class="breadCrumb top-20 z-1 w-90p mx-auto left-0 right-0 absolute">
                 <a href="/" class="inline font-IRANSansWebFaNum400 text-base leading-[28px] text-StarDust600">
                     خانه
@@ -25,23 +42,42 @@
             </div>
             <div
                 class="imgS relative after:absolute after:w-full after:h-full after:inset-0 after:bg-StarDust950/[0.5]">
-                <img src="assets/images/پروژه دهقان.png" class="w-full" alt="about us">
+                <basis core="print" datamembername="db.aboutGallery">
+               
+                    <face filter="ord=1">
+                        <img src="[##cms.cms.cdn##]/@largeIMG" class="w-full" alt="about us">
+                    </face>
+                </basis>
             </div>
         </section>
         <section class="section2 mb-11 w-90p mt-16 mx-auto">
-            <h1 class=" font-IRANSansWebFaNum700 text-center mb-3 text-2xl leading-10 text-StarDust800">
-                درباره‌ی آرکا جام کاوه
-            </h1>
-            <div class="para mb-3 font-IRANSansWebFaNum400 text-base leading-7 text-StarDust800 text-center">
-                شرکت آرکاجام کاوه با هدف ارتقا جامعه ی مهندسین صنعت ساختمان در زمینه خدمات مهندسی، طراحی و اجرای انواع
-                نماهای شیشه ای و اتصالات و یراق آلات روز دنیا در صنعت شیشه با تیم اجرایی حرفه ای و با بیش از یک دهه
-                تجربه تاسیس گردید.
-                شرکت آرکاجام کاوه با هدف ارتقا جامعه ی مهندسین صنعت ساختمان در زمینه خدمات مهندسی، طراحی و اجرای انواع
-                نماهای شیشه ای و اتصالات و یراق آلات روز دنیا در صنعت شیشه با تیم اجرایی حرفه ای و با بیش از یک دهه
-                تجربه تاسیس گردید.
-            </div>
+            <basis core="print" datamembername="db.aboutus">
 
-            <div
+                <face filter="TypeID=150">
+
+                    <h1 class=" font-IRANSansWebFaNum700 text-center mb-3 text-2xl leading-10 text-StarDust800">
+                        @Answer
+                    </h1>
+
+                </face>
+            </basis>
+            <basis core="print" datamembername="db.aboutus">
+                <layout>
+                    <div class="para mb-3 font-IRANSansWebFaNum400 text-base leading-7 text-StarDust800 text-center">
+                        @child
+                    </div>
+                </layout>
+
+                <face filter="TypeID=250">
+                    <p>
+                        @Answer
+                    </p>
+
+                </face>
+            </basis>
+
+
+            <a href="/about-us.bc" title="about us"
                 class="more w-fit mx-auto flex items-center gap-x-1.5   relative after:absolute after:bg-StarDust800 after:right-0 after:bottom-0 after:w-0 after:h-px after:transition-all after:duration-700 group-hover/proj:after:w-full">
                 <svg width="15" height="8" viewBox="0 0 15 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -52,9 +88,9 @@
                     بیشتر درباره‌ی ما
                 </span>
 
-            </div>
+            </a>
         </section>
-        <section class="section3 w-90p mx-auto mb-16">
+        <!-- <section class="section3 w-90p mx-auto mb-16">
             <div class="inVideo flex items-center justify-center relative">
                 <video loop class="w-full">
                     <source>
@@ -68,78 +104,88 @@
 
                 </div>
             </div>
-        </section>
+        </section> -->
         <section class="section4 mb-16">
             <h2 class="font-IRANSansWebFaNum700 text-2xl text-center text-StarDust800">
                 دسته بندی محصولات
             </h2>
 
             <div class="proContainer py-7">
-                <div class="grid grid-cols-2 h-full items-center pb-8 pt-[104px] gap-x-20 w-90p mx-auto">
-                    <div class="productBox">
-                        <a href="">
-                            <div class="imgS mb-6">
-                                <img class="w-full duration-500 grayscale-100 group-hover/productBox:grayscale-0"
-                                    src="assets/images/پروژه خانم ابراهیمی- گیلاوند.png" alt="@title" />
-                            </div>
-                            <h2 class="font-IRANSansWebFaNum700 mb-1 text-lg text-StarDust800">
-                                محصولات داخلی
-                            </h2>
-                            <div class="para font-IRANSansWeb400 text-base text-StarDust800 mb-2 leading-7">
-                                <p>
-                                    توضیحات مربوط به محصولات که در نهایتا دو خط باید اینجا
-                                    نوشته شود. توضیحات مربوط به محصولات.
-                                </p>
-                            </div>
-                            <div
-                                class="more w-fit flex items-center gap-x-1.5 relative after:absolute after:bg-StarDust800 text-StarDust800 after:right-0 after:bottom-0 after:w-0 after:h-px after:transition-all after:duration-700 hover:after:w-full">
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M14 6.41667H7.58333V0H6.41667V6.41667H0V7.58333H6.41667V14H7.58333V7.58333H14V6.41667Z"
-                                        fill="#58585A" />
-                                </svg>
+                <div class="grid grid-cols-2 h-full items-center gap-x-20 w-90p mx-auto">
+                    <basis core="print" datamembername="db.products">
 
-                                <span class="font-IRANSansWebFaNum400 text-base text-StarDust800">
-                                    مشاهده‌ی پروژه
-                                </span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="productBox">
-                        <a href="">
-                            <h2 class="font-IRANSansWebFaNum700 mb-1 text-lg text-StarDust800">
-                                محصولات داخلی
-                            </h2>
-                            <div class="para font-IRANSansWeb400 text-base text-StarDust800 mb-2 leading-7">
-                                <p>
-                                    توضیحات مربوط به محصولات که در نهایتا دو خط باید اینجا
-                                    نوشته شود. توضیحات مربوط به محصولات.
-                                </p>
-                            </div>
-                            <div
-                                class="more mb-6 w-fit flex items-center gap-x-1.5 relative after:absolute after:bg-StarDust800 text-StarDust800 after:right-0 after:bottom-0 after:w-0 after:h-px after:transition-all after:duration-700 hover:after:w-full">
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M14 6.41667H7.58333V0H6.41667V6.41667H0V7.58333H6.41667V14H7.58333V7.58333H14V6.41667Z"
-                                        fill="#58585A" />
-                                </svg>
+                        <face filter="RowNumber=2">
+                            <div class="productBox group/productBox">
+                                <a href="/product-list.bc?catid=@catid">
+                                    <div class="imgS mb-6 overflow-hidden">
+                                        <img class="w-full duration-500 grayscale-100 group-hover/productBox:scale-125 group-hover/productBox:grayscale-0"
+                                            src="/@image" alt="@title" />
+                                    </div>
+                                    <h2 class="font-IRANSansWebFaNum700 mb-1 text-lg text-StarDust800">
+                                        @title
+                                    </h2>
+                                    <div class="para font-IRANSansWeb400 text-base text-StarDust800 mb-2 leading-7">
+                                        <p>
+                                            @urldescription
+                                        </p>
+                                    </div>
+                                    <div
+                                        class="more w-fit flex items-center gap-x-1.5 relative after:absolute after:bg-StarDust800 text-StarDust800 after:right-0 after:bottom-0 after:w-0 after:h-px after:transition-all after:duration-700 hover:after:w-full">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M14 6.41667H7.58333V0H6.41667V6.41667H0V7.58333H6.41667V14H7.58333V7.58333H14V6.41667Z"
+                                                fill="#58585A" />
+                                        </svg>
 
-                                <span class="font-IRANSansWebFaNum400 text-base text-StarDust800">
-                                    مشاهده‌ی پروژه
-                                </span>
+                                        <span class="font-IRANSansWebFaNum400 text-base text-StarDust800">
+                                            @title
+                                        </span>
+                                    </div>
+                                </a>
                             </div>
-                            <div class="imgS mb-6">
-                                <img class="w-full duration-500 grayscale-100 group-hover/productBox:grayscale-0"
-                                    src="assets/images/پروژه خانم ابراهیمی- گیلاوند.png" alt="@title" />
+
+                        </face>
+                    </basis>
+                    <basis core="print" datamembername="db.products">
+
+                        <face filter="RowNumber=3">
+                            <div class="productBox group/productBox">
+                                <a href="/product-list.bc?catid=@catid">
+
+                                    <h2 class="font-IRANSansWebFaNum700 mb-1 text-lg text-StarDust800">
+                                        @title
+                                    </h2>
+                                    <div class="para font-IRANSansWeb400 text-base text-StarDust800 mb-2 leading-7">
+                                        <p>
+                                            @urldescription
+                                        </p>
+                                    </div>
+                                    <div
+                                        class="more mb-6 w-fit flex items-center gap-x-1.5 relative after:absolute after:bg-StarDust800 text-StarDust800 after:right-0 after:bottom-0 after:w-0 after:h-px after:transition-all after:duration-700 hover:after:w-full">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M14 6.41667H7.58333V0H6.41667V6.41667H0V7.58333H6.41667V14H7.58333V7.58333H14V6.41667Z"
+                                                fill="#58585A" />
+                                        </svg>
+
+                                        <span class="font-IRANSansWebFaNum400 text-base text-StarDust800">
+                                            @title
+                                        </span>
+                                    </div>
+                                    <div class="imgS mb-6">
+                                        <img class="w-full duration-500 grayscale-100 group-hover/productBox:scale-125 group-hover/productBox:grayscale-0"
+                                            src="/@image" alt="@title" />
+                                    </div>
+                                </a>
                             </div>
-                        </a>
-                    </div>
+                        </face>
+                    </basis>
                 </div>
             </div>
         </section>
-        <section class="section5 w-90p mx-auto mb-16">
+        <!-- <section class="section5 w-90p mx-auto mb-16">
             <h3 class="font-IRANSansWebFaNum700 mb-3 text-2xl leading-10 text-center text-StarDust800">
                 سوالات متداول
             </h3>
@@ -167,16 +213,16 @@
                 </div>
 
             </div>
-        </section>
+        </section> -->
         <section class="section6 mb-16 min-h-[324px] flex flex-col items-center justify-center"
-            style="background: url(assets/images/aboutPattern.png); background-size: 1280px; background-repeat: repeat;">
+            style="background: url([##cms.cms.cdn##]/images/aboutPattern.png); background-size: 1280px; background-repeat: repeat;">
             <div class="absolute">
                 <div class="para font-IRANSansWebFaNum400 text-base leading-7 text-center text-StarDust800 mb-3">
                     <p>
                         جهت کسب اطلاعات بیشتر ، آماده پاسخگویی به شما هستیم
                     </p>
                 </div>
-                <a href=""
+                <a href="/?type=1"
                     class="bg-Lochmara600 flex mx-auto items-center justify-center font-IRANSansWebFaNum400 text-white leading-7 text-base w-[328px] h-[38px]">
                     تماس با ما
                 </a>
@@ -220,9 +266,9 @@
                         </div>
                         <div class="msg">
                             <div class="msgInput relative">
-                                <textarea
+                                <_textarea
                                     class="w-full outline-0 mb-3 text-right font-IRANSansWebFaNum400 text-base text-StarDust600 py-1.5 placeholder:font-IRANSansWebFaNum400 border-b border-b-StarDust400"
-                                    name="message" id="message" placeholder="دیدگاه خود را بنویسید..."></textarea>
+                                    name="message" id="message" placeholder="دیدگاه خود را بنویسید..."></_textarea>
                             </div>
                         </div>
                         <div class="messageSend font-IRANSansWebFaNum400 text-StarDust600 text-base">
@@ -325,11 +371,15 @@
                 </div>
             </div>
         </section>
-    </main>
 
-    <script src="[##cms.cms.cdn##]/_js/basiscore-2.30.1.min.js"></script>
-    <script src="assets/js/playVideo.js"></script>
-    <script src="assets/js/landing.js"></script>
+        <basis core="call" file="footer1.inc" />
+
+    </main>
+    <basis core="call" file="script.inc" />
+
+    <script src="[##cms.cms.cdn##]/_js/swiper-bundle11.0.6.min.js"></script>
+    <script src="[##cms.cms.cdn##]/_js/playVideo.js"></script>
+    <script src="[##cms.cms.cdn##]/js/landing.js"></script>
 </body>
 
 </html>

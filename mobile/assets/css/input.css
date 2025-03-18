@@ -503,3 +503,8 @@ opacity: 0.9;
   border: none !important;
   border-bottom: 1px solid #B3B3B3 !important;
   }
+
+
+  .projectBox:hover img{
+    filter: grayscale(0);
+  }
