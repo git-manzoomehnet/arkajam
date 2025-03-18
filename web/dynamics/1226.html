@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <style>
+     
+.productShow .step-container {
+  margin-bottom: 8px;
+  /* padding: 20px; */
+}
+
+.productShow .step-label {
+  font-family: "IRANSansWebFaNum700";
+  font-size: 18px;
+  line-height: 32px;
+  letter-spacing: 0%;
+  text-align: right;
+  color: #58585a;
+}
+
+.productShow .custom-select {
+  position: relative;
+  width: 100%;
+  max-width: 328px;
+}
+
+.productShow .select-header {
+  padding: 10px 5px;
+  border: 1px solid #b3b3b3;
+  cursor: pointer;
+  background: #f7f8f7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-family: "IRANSansWebFaNum400";
+  font-size: 16px;
+  line-height: 28px;
+  letter-spacing: 0%;
+  text-align: right;
+  color: #58585a;
+}
+
+.productShow .select-options {
+  position: absolute;
+  width: 100%;
+  max-height: 328px;
+  overflow-y: auto;
+  border: 1px solid #808282;
+  margin-top: 6px;
+  z-index: 100;
+  background: #f7f8f7;
+  display: none;
+  box-shadow: 0px 2px 3px 0px #0000004d;
+
+  box-shadow: 0px 6px 10px 4px #00000026;
+  padding: 6px 9px 22px 9px;
+}
+
+.productShow .option-item {
+  padding: 13px 13px 7px 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-bottom: 1px solid #808282;
+  font-family: "IRANSansWebFaNum400";
+  font-size: 16px;
+  line-height: 28px;
+  letter-spacing: 0%;
+  text-align: right;
+  color: #808282;
+  transition: 0.5s ease;
+}
+
+.productShow .option-item:hover {
+  background: #bcbcbc;
+}
+
+.productShow .option-item.selected {
+  background: #bcbcbc;
+}
+
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Step 1 -->
+        <div class="step-container" data-step="1">
+            <span class="step-label">انتخاب نوع درب:</span>
+            <div class="custom-select">
+                <div class="select-header" onclick="toggleOptions(this)">
+                    <span>لطفا انتخاب کنید</span>
+                    <span>▼</span>
+                </div>
+                <div class="select-options">
+                    <div class="option-item" onclick="handleSelection(this, 'A', true)">فریم لس با چهارچوب (A)</div>
+                    <div class="option-item" onclick="handleSelection(this, 'B', true)">فریم لس بدون چهارچوب (B)</div>
+                    <div class="option-item" onclick="handleSelection(this, 'C', true)">تک جداره فریم دار (C)</div>
+                    <div class="option-item" onclick="handleSelection(this, 'D', true)">دوجداره فریم دار (D)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dynamic Steps -->
+        <div id="dynamic-steps"></div>
+
+        <!-- Result -->
+        <div class="final-result hidden" id="result"></div>
+    </div>
+
+<script>
+const data = {
+    A: {
+        label: "فریم لس با چهارچوب",
+        steps: [
+            {
+                label: "پروفیل",
+                options: ["پودری", "آنادایز"]
+            },
+            {
+                label: "شیشه",
+                options: [
+                    "لمینیت 5+5 با طلق شفاف",
+                    "لمینیت 5+5 با طلق رنگی",
+                    "لمینیت 5+5 با طلق رنگی ترنسپرنت",
+                    "شیشه 10 میل سکوریت سوپرکلیر",
+                    "شیشه 10 میل سکوریت MQ",
+                    "شیشه 8 میل سکوریت سوپرکلیر",
+                    "شیشه 8 میل سکوریت MQ",
+                    "شیشه 8 میل سکوریت ساتینا"
+                ]
+            },
+            {
+                label: "لولا",
+                options: [
+                    "طرح مرونی استیل",
+                    "طرح مرونی مشکی",
+                    "مرونی اصل",
+                    "لولا هاتیک"
+                ]
+            },
+            {
+                label: "دستگیره",
+                options: [
+                    "فرودگاهی استیل",
+                    "فرودگاهی مشکی",
+                    "طرح هوپه",
+                    "طرح مرونی",
+                    "مرونی اصل"
+                ]
+            }
+        ]
+    },
+    B: {
+        label: "فریم لس بدون چهارچوب",
+        steps: [
+            {
+                label: "لولا",
+                options: [
+                    "دوطرف بازشو افقی استیل",
+                    "دوطرف بازشو عمودی استیل",
+                    "دوطرف بازشو عمودی مشکی"
+                ]
+            },
+            {
+                label: "شیشه",
+                options: [
+                    "لمینیت 5+5 با طلق شفاف",
+                    "لمینیت 5+5 با طلق رنگی",
+                    "لمینیت 5+5 با طلق رنگی ترنسپرنت",
+                    "شیشه 10 میل سکوریت سوپرکلیر",
+                    "شیشه 10 میل سکوریت MQ",
+                    "شیشه 8 میل سکوریت سوپرکلیر",
+                    "شیشه 8 میل سکوریت MQ",
+                    "شیشه 8 میل سکوریت ساتینا"
+                ]
+            },
+            {
+                label: "دستگیره",
+                options: [
+                    "مکعبی 30 سانت استیل",
+                    "مکعبی 30 سانت مشکی",
+                    "استوانه 30 سانت استیل",
+                    "استوانه 30 سانت مشکی",
+                    "دستگیره تک سوراخ",
+                    "دستگیره کریستال"
+                ]
+            }
+        ]
+    },
+    C: {
+        label: "تک جداره فریم دار",
+        steps: [
+            {
+                label: "پروفیل",
+                options: ["رنگ پودری", "رنگ آنادایز"]
+            },
+            {
+                label: "شیشه",
+                options: [
+                    "8 میل سکوریت سوپرکلیر",
+                    "شیشه 8 میل سکوریت MQ",
+                    "شیشه 8 میل سکوریت ساتینا",
+                    "لمینیت 5+5 با طلق رنگی",
+                    "لمینیت 5+5 با طلق رنگی ترنسپرنت"
+                ]
+            },
+            {
+                label: "لولا",
+                options: ["ترک", "اروپایی"]
+            },
+            {
+                label: "دستگیره",
+                options: ["ترک", "اروپایی"]
+            }
+        ]
+    },
+    D: {
+        label: "دوجداره فریم دار",
+        steps: [
+            {
+                label: "پروفیل",
+                options: ["پودری", "آنادایز"]
+            },
+            {
+                label: "شیشه",
+                options: [
+                    "دو لایه سفید چاپی 5 میل",
+                    "دو لایه مشکی چاپی 5 میل",
+                    "دو لایه رنگی چاپی 5 میل"
+                ]
+            },
+            {
+                label: "لولا",
+                options: ["ترک", "اروپایی"]
+            },
+            {
+                label: "دستگیره",
+                options: ["ترک", "اروپایی"]
+            }
+        ]
+    }
+};
+
+let currentSelections = {
+    category: null,
+    steps: {},
+    currentStepIndex: 0
+};
+
+function toggleOptions(header) {
+    const options = header.parentElement.querySelector('.select-options');
+    options.style.display = options.style.display === 'block' ? 'none' : 'block';
+}
+
+function handleSelection(element, category, isCategory = false) {
+    const stepContainer = element.closest('.step-container');
+    
+    if(isCategory) {
+        // مرحله اول - انتخاب دسته اصلی
+        if(!data[category]) return;
+        
+        currentSelections.category = category;
+        currentSelections.steps = {};
+        currentSelections.currentStepIndex = 0;
+        document.getElementById('dynamic-steps').innerHTML = '';
+        generateNextStep();
+        updateStepUI(stepContainer, element);
+    } else {
+        // مراحل داینامیک
+        if(!currentSelections.category || !data[currentSelections.category]) return;
+        
+        const stepNumber = parseInt(stepContainer.dataset.step.split('-')[1]);
+        currentSelections.steps[stepNumber] = element.textContent;
+        
+        if(currentSelections.currentStepIndex < data[currentSelections.category].steps.length - 1) {
+            currentSelections.currentStepIndex++;
+            generateNextStep();
+        } else {
+            showFinalResult();
+        }
+        updateStepUI(stepContainer, element);
+    }
+}
+
+function generateNextStep() {
+    if(!currentSelections.category || !data[currentSelections.category]) return;
+    
+    const container = document.getElementById('dynamic-steps');
+    const stepData = data[currentSelections.category].steps[currentSelections.currentStepIndex];
+    
+    if(!stepData) return;
+    
+    const stepHTML = `
+        <div class="step-container" data-step="2-${currentSelections.currentStepIndex + 1}">
+            <span class="step-label">${stepData.label}:</span>
+            <div class="custom-select">
+                <div class="select-header" onclick="toggleOptions(this)">
+                    <span>لطفا انتخاب کنید</span>
+                    <span>▼</span>
+                </div>
+                <div class="select-options">
+                    ${stepData.options.map(option => `
+                        <div class="option-item" onclick="handleSelection(this, '${option}')">${option}</div>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+    `;
+    
+    container.insertAdjacentHTML('beforeend', stepHTML);
+}
+
+function updateStepUI(container, selectedElement) {
+    const headerText = container.querySelector('.select-header span:first-child');
+    headerText.textContent = selectedElement.textContent;
+    
+    container.querySelectorAll('.option-item').forEach(item => {
+        item.classList.remove('selected');
+    });
+    selectedElement.classList.add('selected');
+    container.querySelector('.select-options').style.display = 'none';
+}
+
+function showFinalResult() {
+    const resultDiv = document.getElementById('result');
+    if(!currentSelections.category || !data[currentSelections.category]) return;
+    
+    let html = `<h3>انتخاب نهایی (${data[currentSelections.category].label}):</h3>`;
+    
+    data[currentSelections.category].steps.forEach((step, index) => {
+        html += `<p>${step.label}: ${currentSelections.steps[index + 1] || ''}</p>`;
+    });
+    
+    resultDiv.innerHTML = html;
+    resultDiv.classList.remove('hidden');
+}
+
+
+
+</script>
+</body>
+</html>

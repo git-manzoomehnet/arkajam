@@ -1,0 +1,505 @@
+@import "tailwindcss";
+@font-face {
+  font-family: "IRANSansWebFaNum300";
+  src: url("../_fonts/IRANSansWeb(FaNum)_Light.eot");
+  src: url("../_fonts/IRANSansWeb(FaNum)_Light.eot?#iefix")
+      format("embedded-opentype"),
+    url("../_fonts/IRANSansWeb(FaNum)_Light.woff") format("woff"),
+    url("../_fonts/IRANSansWeb(FaNum)_Light.woff2") format("woff2"),
+    url("../_fonts/IRANSansWeb(FaNum)_Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IRANSansWebFaNum400";
+  src: url("../_fonts/IRANSansFaNum-Regular.eot");
+  src: url("../_fonts/IRANSansFaNum-Regular.eot?#iefix")
+      format("embedded-opentype"),
+    /* url("../_fonts/IRANSansFaNum-Regular.woff") format("woff"), */
+      url("../_fonts/IRANSansFaNum-Regular.woff2") format("woff2"),
+    url("../_fonts/IRANSansFaNum-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IRANSansWebFaNum700";
+  src: url("../_fonts/IRANSansWeb(FaNum)_Black.eot");
+  src: url("../_fonts/IRANSansWeb(FaNum)_Black.eot?#iefix")
+      format("embedded-opentype"),
+    url("../_fonts/IRANSansWeb(FaNum)_Black.woff") format("woff"),
+    url("../_fonts/IRANSansWeb(FaNum)_Black.woff2") format("woff2"),
+    url("../_fonts/IRANSansWeb(FaNum)_Black.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "YekanBakh400";
+  src: url("../_fonts/YekanBakh-Regular.eot");
+  src: url("../_fonts/YekanBakh-Regular.eot?#iefix") format("embedded-opentype"),
+    url("../_fonts/YekanBakh-Regular.woff") format("woff"),
+    url("../_fonts/YekanBakh-Regular.woff2") format("woff2"),
+    url("../_fonts/YekanBakh-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "YekanBakh700";
+  src: url("../_fonts/Yekan Bakh FA 06 Bold.eot");
+  src: url("../_fonts/Yekan Bakh FA 06 Bold.eot?#iefix") format("embedded-opentype"),
+    url("../_fonts/Yekan Bakh FA 06 Bold.woff") format("woff"),
+    url("../_fonts/Yekan Bakh FA 06 Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IRANSansWebFaNum500";
+  src: url("../_fonts/IRANSansWeb(FaNum)_Medium.eot");
+  src: url("../_fonts/IRANSansWeb(FaNum)_Medium.eot?#iefix")
+      format("embedded-opentype"),
+    url("../_fonts/IRANSansWeb(FaNum)_Medium.woff") format("woff"),
+    url("../_fonts/IRANSansWeb(FaNum)_Medium.woff2") format("woff2"),
+    url("../_fonts/IRANSansWeb(FaNum)_Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IRANSansWeb400";
+  src: url("../_fonts/IRANSansWebRegular.eot");
+  src: url("../_fonts/IRANSansWebRegular.eot?#iefix")
+      format("embedded-opentype"),
+    url("../_fonts/IRANSansWebRegular.woff") format("woff"),
+    url("../_fonts/IRANSansWebRegular.woff2") format("woff2"),
+    url("../_fonts/IRANSansWebRegular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica400";
+  src: url("../_fonts/HelveticaNowDisplay-Regular.eot");
+  src: url("../_fonts/HelveticaNowDisplay-Regular.eot?#iefix")
+      format("embedded-opentype"),
+    url("../_fonts/HelveticaNowDisplay-Regular.woff") format("woff"),
+    url("../_fonts/HelveticaNowDisplay-Regular.woff2") format("woff2"),
+    url("../_fonts/HelveticaNowDisplay-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@theme {
+  --font-IRANSansWebFaNum300: "IRANSansWebFaNum300" !important;
+  --font-IRANSansWebFaNum400: "IRANSansWebFaNum400" !important;
+  --font-IRANSansWebFaNum500: "IRANSansWebFaNum500" !important;
+  --font-IRANSansWebFaNum700: "IRANSansWebFaNum700" !important;
+  --font-IRANSansWeb400: "IRANSansWeb400" !important;
+  --font-YekanBakh400: "YekanBakh400" !important;
+  --font-YekanBakh700: "YekanBakh700" !important;
+  --font-Helvetica400: "Helvetica400" !important;
+  --color-StarDust200: #bcbcbc;
+  --color-StarDust600: #808282;
+  --color-StarDust800: #58585a;
+  --color-StarDust950: #2b2c2c;
+  --color-StarDust50: #f7f8f7;
+  --color-StarDust400: #b3b3b3;
+  --color-Lochmara600: #84c2ea;
+  --spacing-90p: 90%;
+  --animate-wiggle: wiggle 1s ease-in-out infinite;
+}
+
+.activeListHeader.megaHeader {
+  overflow: hidden;
+  /* position: relative; */
+}
+.activeListHeader.megaHeader span {
+  z-index: 20;
+}
+.megaHeader:after {
+  background: #fff;
+  content: "";
+  height: 180%;
+  left: -100%;
+  opacity: 0.2;
+  position: absolute;
+  top: -180px;
+  transform: rotate(35deg);
+  transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+  width: 50px;
+  transition-delay: 2s;
+  z-index: -10;
+}
+
+.activeListHeader.megaHeader:after {
+  left: 151%;
+  transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: 20;
+  transition-delay: 1s;
+}
+
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  display: grid;
+  border: 4px solid #0000;
+  border-radius: 50%;
+  border-right-color: var(--color-StarDust950);
+  animation: l15 1s infinite linear;
+}
+.loader::before,
+.loader::after {
+  content: "";
+  grid-area: 1/1;
+  margin: 2px;
+  border: inherit;
+  border-radius: 50%;
+  animation: l15 2s infinite;
+}
+.loader::after {
+  margin: 8px;
+  animation-duration: 3s;
+}
+@keyframes l15 {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+.loaderForm {
+  width: 15px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  animation: l5 1s infinite linear alternate;
+}
+@keyframes l5 {
+  0% {
+    box-shadow: 20px 0 #000, -20px 0 #0002;
+    background: #000;
+  }
+  33% {
+    box-shadow: 20px 0 #000, -20px 0 #0002;
+    background: #0002;
+  }
+  66% {
+    box-shadow: 20px 0 #0002, -20px 0 #000;
+    background: #0002;
+  }
+  100% {
+    box-shadow: 20px 0 #0002, -20px 0 #000;
+    background: #000;
+  }
+}
+
+.errorPlaceholder::placeholder {
+  color: #ff2727;
+}
+
+.popFooter form [data-bc-title-container] {
+  display: none;
+}
+.popFooter form [data-bc-answer-container],
+.popFooter form [data-bc-part-container],
+.popFooter form [data-bc-part-related-cell] {
+  width: 100%;
+  margin: 0;
+}
+.popFooter form input,
+.popFooter form textarea {
+  background-color: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid var(--color-StarDust400) !important;
+  font-family: "IRANSansWebFaNum400" !important;
+  font-size: 16px !important;
+  line-height: 28px !important;
+  padding: 6px 0 !important;
+  color: var(--color-StarDust400) !important;
+  border-radius: 0 !important;
+}
+.popFooter form input::placeholder,
+.popFooter form textarea::placeholder {
+  font-family: "IRANSansWebFaNum400" !important;
+  font-size: 16px !important;
+  line-height: 28px !important;
+  color: var(--color-StarDust400) !important;
+}
+.popFooter form legend {
+  display: none;
+}
+.popFooter form fieldset {
+  padding: 0;
+}
+.popFooter form fieldset [data-bc-schema-column] {
+  display: flex;
+  column-gap: 30px;
+}
+.popFooter form fieldset [data-bc-schema-column] [data-bc-question] {
+  width: 100%;
+}
+
+
+@keyframes animTraitlinear {
+  0% {
+    transform: translate(-100%);
+  }
+  100% {
+    transform: translate(100%);
+  }
+}
+
+footer .mapSection iframe {
+  width: 100%;
+}
+
+.imgSliderPagination .swiper-pagination-bullet{
+opacity: 1;
+width: 8px;
+height: 8px;
+background-color: var(--color-StarDust600);
+transition: 0.5s ease;
+}
+.imgSliderPagination .swiper-pagination-bullet-active{
+width: 10px;
+height: 10px;
+background-color: var(--color-Lochmara600);
+}
+
+.homePage .section1 .scrollBtm .line{
+  animation: animTraitlinear infinite 1.6s;
+}
+
+
+.footer2 .mapSection iframe{
+height: 240px;
+width: 100%;
+filter: invert(0.8) grayscale(1);
+}
+
+.footer2 .leaflet-pane.leaflet-tile-pane{
+opacity: 0.9;
+}
+
+
+
+
+
+.productShow .custom-select {
+  position: relative;
+  width: 100%;
+  max-width: 328px;
+  display: block;
+  /* نمایش پیش‌فرض */
+}
+
+.productShow .custom-options {
+  display: none;
+  position: absolute;
+  width: 100%;
+  background: #f5f5f5;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  box-shadow: 0px 2px 3px 0px #0000004d;
+  z-index: 10;
+}
+
+.productShow .custom-option:hover {
+  background-color: #808282 !important;
+}
+
+.productShow .custom-select.open .custom-options {
+  display: block;
+}
+
+.productShow .disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  display: none;
+  /* زمانی که disabled باشد، نمایش داده نشود */
+}
+
+.productShow .popProduct form [data-bc-answer-container],
+.productShow .popProduct form [data-bc-part-container],
+.productShow .popProduct form [data-bc-part-related-cell] {
+  width: 100%;
+  margin: 0;
+}
+
+.productShow .popProduct form input,
+.productShow .popProduct form textarea {
+  background-color: transparent !important;
+  border: none !important;
+  border: 1px solid var(--color-StarDust400) !important;
+  font-family: "IRANSansWebFaNum400" !important;
+  font-size: 16px !important;
+  line-height: 28px !important;
+  padding: 6px 0 !important;
+  color: var(--color-StarDust400) !important;
+  border-radius: 0 !important;
+}
+
+.productShow .popProduct form input::placeholder,
+.productShow .popProduct form textarea::placeholder {
+  font-family: "IRANSansWebFaNum400" !important;
+  font-size: 16px !important;
+  line-height: 28px !important;
+  color: var(--color-StarDust400) !important;
+}
+
+.productShow .popProduct form legend {
+  display: none;
+}
+
+.productShow .popProduct form fieldset {
+  padding: 0;
+  width: 100%;
+  min-width: unset;
+}
+
+.productShow .popProduct form fieldset [data-bc-title-container] {
+  width: 100%;
+  font-family: "IRANSansWebFaNum700" !important;
+  font-size: 18px;
+  line-height: 32px;
+  text-align: right;
+  color: #58585a;
+}
+
+.productShow .popProduct form fieldset [data-bc-schema-column] {
+  /* display: flex;
+  column-gap: 30px; */
+}
+
+.productShow
+  .popProduct
+  form
+  fieldset
+  [data-bc-schema-column]
+  [data-bc-question] {
+  width: 100%;
+  margin-bottom: 12px !important;
+}
+
+.productShow .popProduct form fieldset:last-of-type legend {
+  display: block;
+  font-family: "YekanBakh700";
+  color: #2b2c2c;
+  font-size: 16px;
+  line-height: 35px;
+  letter-spacing: 0%;
+  text-align: justify;
+  margin-bottom: 20px;
+}
+
+.productShow .popProduct form fieldset:last-of-type [data-bc-title-container] {
+  display: none;
+}
+
+.productShow .popProduct form [data-bc-schema-column] {
+  /* margin-bottom: 24px; */
+}
+.productShow .popProduct form [data-bc-section]{
+  margin: 0!important;
+}
+.productShow .popProduct form [data-bc-validation-part] {
+  font-family: "IRANSansWebFaNum400" !important;
+  font-size: 14px;
+}
+
+.productShow [data-bc-validation-part] {
+  display: none !important;
+}
+
+.productShow .popProduct form .allertBgInput {
+  background-color: #ffe1e1 !important;
+}
+
+.productShow .step-container {
+  margin-bottom: 8px;
+  /* padding: 20px; */
+}
+
+.productShow .step-label {
+  font-family: "IRANSansWebFaNum700";
+  font-size: 18px;
+  line-height: 32px;
+  letter-spacing: 0%;
+  text-align: right;
+  color: #58585a;
+}
+
+.productShow .custom-select {
+  position: relative;
+  width: 100%;
+  max-width: 328px;
+}
+
+.productShow .select-header {
+  padding: 10px 5px;
+  border: 1px solid #b3b3b3;
+  cursor: pointer;
+  background: #f7f8f7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-family: "IRANSansWebFaNum400";
+  font-size: 16px;
+  line-height: 28px;
+  letter-spacing: 0%;
+  text-align: right;
+  color: #58585a;
+}
+
+.productShow .select-options {
+  position: absolute;
+  width: 100%;
+  max-height: 328px;
+  overflow-y: auto;
+  border: 1px solid #808282;
+  margin-top: 6px;
+  z-index: 100;
+  background: #f7f8f7;
+  display: none;
+  box-shadow: 0px 2px 3px 0px #0000004d;
+
+  box-shadow: 0px 6px 10px 4px #00000026;
+  padding: 6px 9px 22px 9px;
+}
+
+.productShow .option-item {
+  padding: 13px 13px 7px 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-bottom: 1px solid #808282;
+  font-family: "IRANSansWebFaNum400";
+  font-size: 16px;
+  line-height: 28px;
+  letter-spacing: 0%;
+  text-align: right;
+  color: #808282;
+  transition: 0.5s ease;
+}
+
+.productShow .option-item:hover {
+  background: #bcbcbc;
+}
+
+.productShow .option-item.selected {
+  background: #bcbcbc;
+}
+
+.productShow .popProduct form fieldset:last-of-type input{
+  border: none !important;
+  border-bottom: 1px solid #B3B3B3 !important;
+  }
+  .productShow .popProduct form textarea{
+  border: none !important;
+  border-bottom: 1px solid #B3B3B3 !important;
+  }
+  .productShow .popProduct form .codeinputm{
+  border: none !important;
+  border-bottom: 1px solid #B3B3B3 !important;
+  }

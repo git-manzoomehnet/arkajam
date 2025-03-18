@@ -1,0 +1,139 @@
+<basis core="dbsource" name="db" source="basiscore" lid="1" mid="19" catid="213508"> 
+    <member name="selectedproject" type="list" size="323x215" link="project.bc"/> </basis>	
+<basis core="dbsource" name="db" source="basiscore" lid="1" mid="19" catid="213463"> 
+    <member name="projectList" type="list" size="280x240" link="project.bc"/> </basis>	
+
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لیست پروژه ها</title>
+    <meta name="description" content="لیست پروژه های آرکاجام">
+    <link rel="stylesheet" href="[##cms.cms.cdn##]/css/swiper-bundle.min.css">
+    <basis core="call" file="style.inc"  pageindex="[##cms.cms.pageindex##]" />
+</head>
+<body>
+    <div class="projectList" dir="rtl">
+        <basis core="call" file="header1.inc" pageindex="[##cms.cms.pageindex##]"/>
+        <div class="breadCrumb mt-[88px] w-90p mx-auto">
+            <a href="/" class="inline font-YekanBakh400 text-xs leading-[28px] text-StarDust600">
+                خانه
+            </a>
+            <span class="inline font-YekanBakh400 text-xs leading-[28px] text-StarDust600">
+                .
+            </span>
+
+            <h1 class="inline font-YekanBakh400 text-xs leading-[28px] text-StarDust600">
+                پروژه ها
+            </h1>
+        </div>
+        <section class="section1 mt-4 mb-16">
+            <div class="swiper projectSlider">
+                <!-- Additional required wrapper -->
+                <div class="swiper-wrapper">
+                  <!-- Slides -->
+                   <basis core="print" datamembername="db.selectedproject">
+                     
+                       <face>
+                           <div class="swiper-slide group/slide">
+                             <a href="/@link" class="projectBox relative" title="@title">
+                                  <div class="imgS">
+                                     <img class="w-full group-[&.swiper-slide-active]/slide:grayscale-0 duration-1000 grayscale-100 group-[&.swiper-slide-active]/slide:opacity-100 opacity-80" src="[##cms.cms.cdn##]/@00323X00215prp" alt="@title" title="@title">
+                                  </div>
+                                  <div class="overTitle absolute left-0 right-0 bottom-4">
+                                     <h2 class="text-center mb-2 font-YekanBakh700 text-base leading-[32px] text-StarDust50">
+                                        @title
+                                     </h2>
+         
+                                     <div class="more flex items-center gap-x-1.5 justify-center">
+                                        <svg width="8" height="4" viewBox="0 0 8 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M2.16791 0.338867L1.0829 1.4166C0.931901 1.57375 0.847656 1.78285 0.847656 2.00008C0.847656 2.21732 0.931901 2.42608 1.0829 2.58323L2.16791 3.66123L2.55938 3.27238L1.55384 2.27694L7.49225 2.27694L7.49216 1.72323L1.55384 1.72323L2.55938 0.72772L2.16791 0.338867Z" fill="#F7F8F7"/>
+                                            </svg>
+                                            
+                                         <span class="font-YekanBakh400 text-xs text-StarDust50">
+                                             مشاهده‌ی پروژه
+                                         </span>
+         
+                                     </div>
+                                  </div>
+                             </a>
+                           </div>
+                           
+                       </face>
+                   </basis>
+                 
+                </div>
+               
+                <div class="prevSlider w-[24px] h-[24px] flex items-center justify-center absolute z-1 cursor-pointer right-[5%] top-[calc(50%-24px)]">
+                    <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.12143 13.414L7.41443 8.121C7.78937 7.74594 8 7.23733 8 6.707C8 6.17667 7.78937 5.66806 7.41443 5.293L2.12143 0L0.707427 1.414L5.99643 6.707L0.703427 12L2.12143 13.414Z" fill="white"/>
+                        </svg>
+                        
+                        
+                </div>
+                <div class="nextSlider w-[24px] h-[24px] flex items-center justify-center absolute z-1 cursor-pointer left-[5%] top-[calc(50%-24px)]">
+                    <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5.87857 13.414L0.585573 8.121C0.210631 7.74594 0 7.23733 0 6.707C0 6.17667 0.210631 5.66806 0.585573 5.293L5.87857 0L7.29257 1.414L2.00357 6.707L7.29657 12L5.87857 13.414Z" fill="white"/>
+                        </svg>
+                        
+                </div>
+              </div>
+        </section>
+        <section class="section2 w-90p mx-auto relative">
+            <form action="" class="py-1.5 px-2.5 mb-10 filterSearchForm border flex justify-between items-center border-StarDust950">
+                <input id="searchInput" class="font-IRANSansWebFaNum400 outline-0 placeholder:font-IRANSansWebFaNum400 w-full placeholder:text-sm text-sm placeholder:text-StarDust600 text-StarDust600" type="text" placeholder="جست و جوی پروژه">
+                <button class="cursor-pointer">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 16.9409L13.3098 12.2507C14.5281 10.7606 15.1271 8.85926 14.9829 6.93992C14.8387 5.02058 13.9623 3.2301 12.535 1.93881C11.1077 0.647526 9.23863 -0.0457634 7.31448 0.00234632C5.39034 0.050456 3.55829 0.836284 2.19729 2.19729C0.836284 3.55829 0.050456 5.39034 0.00234632 7.31448C-0.0457634 9.23863 0.647526 11.1077 1.93881 12.535C3.2301 13.9623 5.02058 14.8387 6.93992 14.9829C8.85926 15.1271 10.7606 14.5281 12.2507 13.3098L16.9409 18L18 16.9409ZM7.51398 13.506C6.32888 13.506 5.17038 13.1546 4.185 12.4962C3.19962 11.8377 2.43161 10.9019 1.97809 9.80703C1.52457 8.71213 1.40591 7.50734 1.63711 6.345C1.86831 5.18267 2.439 4.11499 3.27699 3.27699C4.11499 2.439 5.18267 1.86831 6.345 1.63711C7.50734 1.40591 8.71213 1.52457 9.80703 1.97809C10.9019 2.43161 11.8377 3.19962 12.4962 4.185C13.1546 5.17038 13.506 6.32888 13.506 7.51398C13.5042 9.10262 12.8723 10.6257 11.749 11.749C10.6257 12.8723 9.10262 13.5042 7.51398 13.506Z" fill="#808282"/>
+                        </svg>
+                        
+                </button>
+            </form>
+            <div class="loaderContainer1 hidden h-[60vh] w-full absolute items-center justify-center inset-0 bg-white/[0.6] z-1">
+                <div class="loader"></div>
+            </div>
+ 
+            <div class="proListContainer">
+
+                <basis core="print" datamembername="db.projectList">
+                  
+                    <face>
+                        <div class="projectBox px-5 border-x border-x-StarDust400 mb-8">
+                            <a href="/@link" class="group/proj" title="@title">
+                                <div class="imgS mb-2">
+                                    <img loading="lazy" class="w-full grayscale-100 duration-1000 group-hover/proj:grayscale-0" src="[##cms.cms.cdn##]/@00280X00240prp" alt="@title" >
+                                </div>
+                                <h2 class="font-YekanBakh700 text-lg leading-8 text-StarDust800 mb-2  ">
+                                    @title
+                                </h2>
+        
+                                <div class="more w-fit flex items-center gap-x-1.5   relative after:absolute after:bg-StarDust800 after:right-0 after:bottom-0 after:w-0 after:h-px after:transition-all after:duration-700 group-hover/proj:after:w-full">
+                                    <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M2.78174 0.5L0.495655 2.77076C0.177501 3.10187 -2.00074e-08 3.54243 0 4.00015C2.00074e-08 4.45786 0.177501 4.8977 0.495655 5.22881L2.78174 7.50015L3.60657 6.68084L1.48791 4.58347L14 4.58348L13.9998 3.41681L1.48791 3.41681L3.60657 1.3193L2.78174 0.5Z" fill="#58585A"/>
+                                        </svg>
+                                        
+                                    <span class="font-IRANSansWebFaNum400 text-base text-StarDust800">
+                                        مشاهده‌ی پروژه
+                                    </span>
+        
+                                </div>
+                            </a>
+                        </div>
+                        
+                    </face>
+                </basis>
+               
+            </div>
+        </section>
+        <basis core="call" file="footer1.inc"  pageindex="[##cms.cms.pageindex##]"/>
+
+    </div>
+
+
+    <basis core="call" file="script.inc"  pageindex="[##cms.cms.pageindex##]"/>
+
+    <script src="[##cms.cms.cdn##]/_js/swiper.4.3.3.min.js"></script>
+    <script src="[##cms.cms.cdn##]/js/projectList-mobile.js"></script>
+</body>
+</html>

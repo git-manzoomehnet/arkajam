@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <style>
+        .step-container {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+
+        .step-label {
+            display: block;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .custom-select {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .select-header {
+            padding: 12px 15px;
+            border: 2px solid #bdc3c7;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .select-options {
+            position: absolute;
+            width: 100%;
+            max-height: 250px;
+            overflow-y: auto;
+            background: white;
+            border: 2px solid #bdc3c7;
+            border-radius: 6px;
+            margin-top: 5px;
+            z-index: 100;
+            display: none;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+
+        .option-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-bottom: 1px solid #eee;
+        }
+
+        .option-item:hover {
+            background: #f1f8ff;
+        }
+
+        .option-item.selected {
+            background: #e3f2fd;
+            font-weight: bold;
+        }
+
+        .final-result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Step 1 -->
+        <div class="step-container" data-step="1">
+            <span class="step-label">انتخاب دسته اصلی:</span>
+            <div class="custom-select">
+                <div class="select-header" onclick="toggleOptions(this)">
+                    <span>لطفا انتخاب کنید</span>
+                    <span>▼</span>
+                </div>
+                <div class="select-options">
+                    <div class="option-item" data-value="A" onclick="handleSelection(this, 'A')">پارتیشن شیشهای (A)</div>
+                    <div class="option-item" data-value="B" onclick="handleSelection(this, 'B')">شیشه (B)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2 (Dynamic) -->
+        <div class="step-container hidden" data-step="2"></div>
+
+        <!-- Step 3 (Dynamic) -->
+        <div class="step-container hidden" data-step="3"></div>
+
+        <!-- Result -->
+        <div class="final-result hidden" id="result"></div>
+    </div>
+
+<script>
+const data = {
+    A: {
+        label: "نوع فریم پارتیشن",
+        options: {
+            "1": {label: "تک جداره COLCOM", children: ["آنادایز", "پودری"]},
+            "2": {label: "تک جداره دوجزیی", children: ["آنادایز", "پودری"]},
+            "3": {label: "دوجداره COLCOM", children: ["آنادایز", "پودری"]}
+        }
+    },
+    B: {
+        label: "نوع شیشه",
+        options: [
+            "سکوریت 10 میل سوپرکلیر",
+            "سکوریت 10 میل MQ",
+            "سکوریت 8 میل سوپرکلیر",
+            "سکوریت 8 میل MQ"
+        ]
+    }
+};
+
+let currentSelections = {
+    step1: null,
+    step2: null,
+    step3: null
+};
+
+function toggleOptions(header) {
+    const options = header.parentElement.querySelector('.select-options');
+    options.style.display = options.style.display === 'block' ? 'none' : 'block';
+}
+
+function handleSelection(element, value) {
+    const stepContainer = element.closest('.step-container');
+    const stepNumber = parseInt(stepContainer.dataset.step);
+    
+    // Update selections
+    currentSelections[`step${stepNumber}`] = value;
+    
+    // Update UI
+    updateStepUI(stepContainer, element);
+    clearNextSteps(stepNumber);
+    
+    // Handle next steps
+    if(stepNumber === 1) {
+        generateNextStep(stepNumber + 1, value);
+    } else if(stepNumber === 2 && value in data.A.options) {
+        generateNextStep(stepNumber + 1, value);
+    } else {
+        showFinalResult();
+    }
+}
+
+function updateStepUI(container, selectedElement) {
+    // Update header text
+    const headerText = container.querySelector('.select-header span:first-child');
+    headerText.textContent = selectedElement.textContent;
+    
+    // Remove previous selections
+    container.querySelectorAll('.option-item').forEach(item => {
+        item.classList.remove('selected');
+    });
+    
+    // Add selection style
+    selectedElement.classList.add('selected');
+    
+    // Close dropdown
+    container.querySelector('.select-options').style.display = 'none';
+}
+
+function clearNextSteps(currentStep) {
+    // Clear all subsequent steps
+    for(let step = currentStep + 1; step <= 3; step++) {
+        const stepContainer = document.querySelector(`[data-step="${step}"]`);
+        if(stepContainer) {
+            stepContainer.classList.add('hidden');
+            stepContainer.innerHTML = '';
+            currentSelections[`step${step}`] = null;
+        }
+    }
+    document.getElementById('result').classList.add('hidden');
+}
+
+function generateNextStep(nextStep, value) {
+    const stepContainer = document.querySelector(`[data-step="${nextStep}"]`);
+    
+    let optionsHTML = '';
+    let label = '';
+    
+    if(nextStep === 2) {
+        label = data[currentSelections.step1].label;
+        if(currentSelections.step1 === 'A') {
+            optionsHTML = Object.values(data.A.options).map((item, index) => `
+                <div class="option-item" 
+                     data-value="${index + 1}" 
+                     onclick="handleSelection(this, '${index + 1}')">
+                    ${item.label}
+                </div>
+            `).join('');
+        } else {
+            optionsHTML = data.B.options.map(item => `
+                <div class="option-item" onclick="handleSelection(this, '${item}')">${item}</div>
+            `).join('');
+        }
+    } else if(nextStep === 3) {
+        label = "نوع پوشش";
+        optionsHTML = data.A.options[value].children.map(item => `
+            <div class="option-item" onclick="handleSelection(this, '${item}')">${item}</div>
+        `).join('');
+    }
+
+    stepContainer.innerHTML = `
+        <span class="step-label">${label}:</span>
+        <div class="custom-select">
+            <div class="select-header" onclick="toggleOptions(this)">
+                <span>لطفا انتخاب کنید</span>
+                <span>▼</span>
+            </div>
+            <div class="select-options">
+                ${optionsHTML}
+            </div>
+        </div>
+    `;
+    
+    stepContainer.classList.remove('hidden');
+}
+
+function showFinalResult() {
+    const resultDiv = document.getElementById('result');
+    let html = '<h3>انتخاب نهایی:</h3>';
+    
+    if(currentSelections.step1 === 'A') {
+        html += `
+            <p>دسته اصلی: پارتیشن شیشهای</p>
+            <p>نوع فریم: ${document.querySelector('[data-step="2"] .select-header span').textContent}</p>
+            <p>پوشش: ${document.querySelector('[data-step="3"] .select-header span')?.textContent || ''}</p>
+        `;
+    } else {
+        html += `
+            <p>دسته اصلی: شیشه</p>
+            <p>نوع شیشه: ${document.querySelector('[data-step="2"] .select-header span').textContent}</p>
+        `;
+    }
+    
+    resultDiv.innerHTML = html;
+    resultDiv.classList.remove('hidden');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <style>
+        /* استایلهای قبلی بدون تغییر */
+        .step-container {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+
+        .step-label {
+            display: block;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .custom-select {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .select-header {
+            padding: 12px 15px;
+            border: 2px solid #bdc3c7;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .select-options {
+            position: absolute;
+            width: 100%;
+            max-height: 250px;
+            overflow-y: auto;
+            background: white;
+            border: 2px solid #bdc3c7;
+            border-radius: 6px;
+            margin-top: 5px;
+            z-index: 100;
+            display: none;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+
+        .option-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-bottom: 1px solid #eee;
+        }
+
+        .option-item:hover {
+            background: #f1f8ff;
+        }
+
+        .option-item.selected {
+            background: #e3f2fd;
+            font-weight: bold;
+        }
+
+        .final-result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Step 1 -->
+        <div class="step-container" data-step="1">
+            <span class="step-label">نوع دوردوشی:</span>
+            <div class="custom-select">
+                <div class="select-header" onclick="toggleOptions(this)">
+                    <span>لطفا انتخاب کنید</span>
+                    <span>▼</span>
+                </div>
+                <div class="select-options">
+                    <div class="option-item" onclick="handleSelection(this, 'A', true)">دیوایدر (A)</div>
+                    <div class="option-item" onclick="handleSelection(this, 'B', true)">خطی لولایی (B)</div>
+                    <div class="option-item" onclick="handleSelection(this, 'C', true)">ریلی خطی (C)</div>
+                    <div class="option-item" onclick="handleSelection(this, 'D', true)">نود درجه ریلی (D)</div>
+                    <div class="option-item" onclick="handleSelection(this, 'E', true)">نود درجه لولایی (E)</div>
+                    <div class="option-item" onclick="handleSelection(this, 'F', true)">ریلی خطی دو طرف ثابت (F)</div>
+                    <div class="option-item" onclick="handleSelection(this, 'G', true)">لولایی خطی دو طرف ثابت (G)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dynamic Steps -->
+        <div id="dynamic-steps"></div>
+
+        <!-- Result -->
+        <div class="final-result hidden" id="result"></div>
+    </div>
+
+<script>
+const data = {
+    A: {
+        label: "دیوایدر",
+        steps: [
+            {
+                label: "شیشه",
+                options: [
+                    "شیشه 8 میل سکوریت سوپرکلیر",
+                    "شیشه 8 میل سکوریت MQ",
+                    "شیشه 8 میل سکوریت ساتینا"
+                ]
+            },
+            {
+                label: "یراق",
+                options: [
+                    "بست گونیا استیل",
+                    "بست گونیا رنگی",
+                    "پروفیل 2 سانت استیل",
+                    "پروفیل 3 سانت آلومینیوم"
+                ]
+            }
+        ]
+    },
+    B: {
+        label: "خطی لولایی",
+        steps: [
+            {
+                label: "یراق",
+                subSteps: [
+                    {
+                        label: "بست گونیا",
+                        options: ["استیل", "رنگی"]
+                    },
+                    {
+                        label: "لولا",
+                        options: [
+                            "عمودی استیل",
+                            "عمودی رنگی",
+                            "افقی استیل",
+                            "افقی رنگی"
+                        ]
+                    },
+                    {
+                        label: "دستگیره",
+                        options: [
+                            "تک سوراخ استیل",
+                            "تک سوراخ رنگی",
+                            "30 سانت استیل",
+                            "30 سانت رنگی"
+                        ]
+                    }
+                ]
+            },
+            {
+                label: "شیشه",
+                options: [
+                    "شیشه 8 میل سکوریت سوپرکلیر",
+                    "شیشه 8 میل سکوریت MQ",
+                    "شیشه 8 میل سکوریت ساتینا"
+                ]
+            }
+        ]
+    },
+    C: {
+        label: "ریلی خطی",
+        steps: [
+            {
+                label: "بست نگهدارنده",
+                options: [
+                    "بست گونیا استیل",
+                    "بست گونیا مشکی",
+                    "پروفیل 20 سانت استیل",
+                    "پروفیل 3 سانت آلومینیوم رنگی"
+                ]
+            },
+            {
+                label: "یراق بازشو",
+                options: [
+                    "ست ریلی A02 استیل",
+                    "ست ریلی A02 مشکی",
+                    "ست ریلی A02 طلایی",
+                    "ست ریلی A010 استیل",
+                    "ست ریلی A010 مشکی",
+                    "ست ریلی A010 طلایی"
+                ]
+            },
+            {
+                label: "شیشه",
+                options: [
+                    "شیشه 8 میل سکوریت سوپرکلیر",
+                    "شیشه 8 میل سکوریت MQ",
+                    "شیشه 8 میل سکوریت ساتینا"
+                ]
+            }
+        ]
+    },
+    // سایر دستهها با ساختار مشابه
+};
+
+let currentSelections = {
+    category: null,
+    steps: {},
+    currentStepIndex: 0,
+    subStepIndex: 0
+};
+
+function toggleOptions(header) {
+    const options = header.parentElement.querySelector('.select-options');
+    options.style.display = options.style.display === 'block' ? 'none' : 'block';
+}
+
+function handleSelection(element, value, isCategory = false) {
+    const stepContainer = element.closest('.step-container');
+    
+    if(isCategory) {
+        if(!data[value]) return;
+        
+        currentSelections = {
+            category: value,
+            steps: {},
+            currentStepIndex: 0,
+            subStepIndex: 0
+        };
+        
+        document.getElementById('dynamic-steps').innerHTML = '';
+        generateNextStep();
+        updateStepUI(stepContainer, element);
+    } else {
+        if(!currentSelections.category || !data[currentSelections.category]) return;
+        
+        const currentStep = data[currentSelections.category].steps[currentSelections.currentStepIndex];
+        
+        if(currentStep.subSteps) {
+            const stepKey = `${currentSelections.currentStepIndex + 1}-${currentSelections.subStepIndex + 1}`;
+            currentSelections.steps[stepKey] = element.textContent;
+            
+            if(currentSelections.subStepIndex < currentStep.subSteps.length - 1) {
+                currentSelections.subStepIndex++;
+                generateNextSubStep();
+            } else {
+                currentSelections.currentStepIndex++;
+                currentSelections.subStepIndex = 0;
+                generateNextStep();
+            }
+        } else {
+            const stepKey = currentSelections.currentStepIndex + 1;
+            currentSelections.steps[stepKey] = element.textContent;
+            
+            if(currentSelections.currentStepIndex < data[currentSelections.category].steps.length - 1) {
+                currentSelections.currentStepIndex++;
+                generateNextStep();
+            } else {
+                showFinalResult();
+            }
+        }
+        
+        updateStepUI(stepContainer, element);
+    }
+}
+
+function generateNextStep() {
+    if(!currentSelections.category || !data[currentSelections.category]) return;
+    
+    const container = document.getElementById('dynamic-steps');
+    const stepData = data[currentSelections.category].steps[currentSelections.currentStepIndex];
+    
+    if(!stepData) return;
+    
+    let stepHTML = '';
+    
+    if(stepData.subSteps) {
+        stepHTML = generateSubStep(stepData.subSteps[0]);
+    } else {
+        stepHTML = `
+            <div class="step-container" data-step="${currentSelections.currentStepIndex + 2}">
+                <span class="step-label">${stepData.label}:</span>
+                <div class="custom-select">
+                    <div class="select-header" onclick="toggleOptions(this)">
+                        <span>لطفا انتخاب کنید</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="select-options">
+                        ${stepData.options.map(option => `
+                            <div class="option-item" onclick="handleSelection(this, '${option}')">${option}</div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    container.insertAdjacentHTML('beforeend', stepHTML);
+}
+
+function generateNextSubStep() {
+    const container = document.getElementById('dynamic-steps');
+    const stepData = data[currentSelections.category].steps[currentSelections.currentStepIndex];
+    const subStepData = stepData.subSteps[currentSelections.subStepIndex];
+    
+    const stepHTML = generateSubStep(subStepData);
+    container.insertAdjacentHTML('beforeend', stepHTML);
+}
+
+function generateSubStep(subStepData) {
+    return `
+        <div class="step-container" data-step="${currentSelections.currentStepIndex + 2}-${currentSelections.subStepIndex + 1}">
+            <span class="step-label">${subStepData.label}:</span>
+            <div class="custom-select">
+                <div class="select-header" onclick="toggleOptions(this)">
+                    <span>لطفا انتخاب کنید</span>
+                    <span>▼</span>
+                </div>
+                <div class="select-options">
+                    ${subStepData.options.map(option => `
+                        <div class="option-item" onclick="handleSelection(this, '${option}')">${option}</div>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function updateStepUI(container, selectedElement) {
+    const headerText = container.querySelector('.select-header span:first-child');
+    headerText.textContent = selectedElement.textContent;
+    
+    container.querySelectorAll('.option-item').forEach(item => {
+        item.classList.remove('selected');
+    });
+    selectedElement.classList.add('selected');
+    container.querySelector('.select-options').style.display = 'none';
+}
+
+function showFinalResult() {
+    const resultDiv = document.getElementById('result');
+    let html = `<h3>انتخاب نهایی (${data[currentSelections.category].label}):</h3>`;
+    
+    Object.entries(currentSelections.steps).forEach(([key, value]) => {
+        const [step, subStep] = key.split('-');
+        const stepData = data[currentSelections.category].steps[step - 1];
+        
+        if(stepData.subSteps) {
+            html += `<p>${stepData.subSteps[subStep - 1].label}: ${value}</p>`;
+        } else {
+            html += `<p>${stepData.label}: ${value}</p>`;
+        }
+    });
+    
+    resultDiv.innerHTML = html;
+    resultDiv.classList.remove('hidden');
+}
+</script>
+</body>
+</html>

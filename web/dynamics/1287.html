@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html dir="rtl">
+
+<head>
+    <style>
+        .step-container {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+
+        .step-label {
+            display: block;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .custom-select {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .select-header {
+            padding: 12px 15px;
+            border: 2px solid #bdc3c7;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .select-options {
+            position: absolute;
+            width: 100%;
+            max-height: 250px;
+            overflow-y: auto;
+            background: white;
+            border: 2px solid #bdc3c7;
+            border-radius: 6px;
+            margin-top: 5px;
+            z-index: 100;
+            display: none;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .option-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-bottom: 1px solid #eee;
+        }
+
+        .option-item:hover {
+            background: #f1f8ff;
+        }
+
+        .option-item.selected {
+            background: #e3f2fd;
+            font-weight: bold;
+        }
+
+        .final-result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Step 1 -->
+        <div class="step-container" data-step="1">
+            <span class="step-label">ویژگی‌های پروفیل ترمال بریک:</span>
+            <div class="custom-select">
+                <div class="select-header" onclick="toggleOptions(this)">
+                    <span>لطفا انتخاب کنید</span>
+                    <span>
+                        <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0.586 2.12143L5.879 7.41443C6.25406 7.78937 6.76267 8 7.293 8C7.82333 8 8.33194 7.78937 8.707 7.41443L14 2.12143L12.586 0.707427L7.293 5.99643L2 0.703427L0.586 2.12143Z" fill="#5A5A5A"/>
+                            </svg>
+                            
+                    </span>
+                </div>
+                <div class="select-options">
+                    <div class="option-item" onclick="handleSelection(this, 'insulation', true)">عایق حرارتی</div>
+                    <div class="option-item" onclick="handleSelection(this, 'soundproof', true)">عایق صوتی</div>
+                    <div class="option-item" onclick="handleSelection(this, 'durability', true)">مقاومت بالا</div>
+                    <div class="option-item" onclick="handleSelection(this, 'coating', true)">پوشش سطحی</div>
+                    <div class="option-item" onclick="handleSelection(this, 'glass', true)">سازگاری با شیشه</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dynamic Steps -->
+        <div id="dynamic-steps"></div>
+
+        <!-- Result -->
+        <div class="final-result hidden" id="result"></div>
+    </div>
+
+    <script>
+        const data = {
+            insulation: {
+                label: "عایق حرارتی",
+                options: [
+                    "جلوگیری از اتلاف انرژی در فصول سرد و گرم",
+                    "ضریب انتقال حرارت 0.8 W/m²K",
+                    "مطابق با استانداردهای بین‌المللی"
+                ]
+            },
+            soundproof: {
+                label: "عایق صوتی",
+                options: [
+                    "کاهش انتقال صدا تا 45 دسیبل",
+                    "مناسب برای محیط‌های پرترافیک",
+                    "ساختار چندلایه عایق"
+                ]
+            },
+            durability: {
+                label: "مقاومت بالا",
+                options: [
+                    "مقاوم در برابر زنگ‌زدگی و خوردگی",
+                    "تحمل فشار تا 1500 کیلوگرم",
+                    "گارانتی 20 ساله"
+                ]
+            },
+            coating: {
+                label: "پوشش سطحی",
+                options: [
+                    "پودری با 50 رنگ انتخابی",
+                    "آنادایز با سطح متالیک",
+                    "هیبرید (ترکیب پودری و آنادایز)"
+                ]
+            },
+            glass: {
+                label: "سازگاری با شیشه",
+                options: [
+                    "شیشه دوجداره 6+6 میلیمتر",
+                    "شیشه لمینت 5+5 میلیمتر",
+                    "شیشه سکوریت 8 میلیمتر"
+                ]
+            }
+        };
+
+        let currentSelections = {
+            category: null,
+            options: {},
+            currentStep: 1
+        };
+
+        function toggleOptions(header) {
+            const options = header.parentElement.querySelector('.select-options');
+            options.style.display = options.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function handleSelection(element, category, isCategory = false) {
+            const stepContainer = element.closest('.step-container');
+
+            if (isCategory) {
+                currentSelections = {
+                    category: category,
+                    options: {},
+                    currentStep: 2
+                };
+
+                document.getElementById('dynamic-steps').innerHTML = '';
+                generateOptionsStep();
+                updateStepUI(stepContainer, element);
+            } else {
+                currentSelections.options[currentSelections.category] = element.textContent;
+                showFinalResult();
+                updateStepUI(stepContainer, element);
+            }
+        }
+
+        function generateOptionsStep() {
+            const container = document.getElementById('dynamic-steps');
+            const categoryData = data[currentSelections.category];
+
+            const stepHTML = `
+        <div class="step-container" data-step="2">
+            <span class="step-label">${categoryData.label}:</span>
+            <div class="custom-select">
+                <div class="select-header" onclick="toggleOptions(this)">
+                    <span>لطفا انتخاب کنید</span>
+                    <span>▼</span>
+                </div>
+                <div class="select-options">
+                    ${categoryData.options.map(option => `
+                        <div class="option-item" onclick="handleSelection(this, '${option}')">${option}</div>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+    `;
+
+            container.innerHTML = stepHTML;
+        }
+
+        function updateStepUI(container, selectedElement) {
+            const headerText = container.querySelector('.select-header span:first-child');
+            headerText.textContent = selectedElement.textContent;
+
+            container.querySelectorAll('.option-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            selectedElement.classList.add('selected');
+            container.querySelector('.select-options').style.display = 'none';
+        }
+
+        function showFinalResult() {
+            const resultDiv = document.getElementById('result');
+            const categoryData = data[currentSelections.category];
+
+            let html = `<h3>ویژگی انتخاب شده (${categoryData.label}):</h3>`;
+            html += `<p>${currentSelections.options[currentSelections.category]}</p>`;
+
+            resultDiv.innerHTML = html;
+            resultDiv.classList.remove('hidden');
+        }
+    
+    </script>
+</body>
+
+</html>

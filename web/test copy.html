@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Form</title>
+    <link rel="stylesheet" href="assets/css/outputDesktop.css">
+    <style>
+        .custom-select {
+            margin-bottom: 10px;
+        }
+        .custom-select.disabled {
+            display: none;
+        }
+        .custom-select.open .custom-options {
+            display: block;
+        }
+        .custom-options {
+            display: none;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border: 1px solid #ccc;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .custom-option {
+            padding: 5px;
+            cursor: pointer;
+        }
+        .custom-option:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+<div class="productShow">
+    <div class="selectsForm flex flex-col items-start">
+        <div class="custom-select" id="customSelect1">
+            <span class="font-IRANSansWebFaNum700 text-lg leading-8 text-StarDust800">نوع درب</span>
+            <div class="schemaSelects w-full max-w-[328px] border border-StarDust400 h-[48px] bg-StarDust50 flex items-center px-4 cursor-pointer">انتخاب کنید</div>
+            <ul class="custom-options" id="options1">
+                <li class="custom-option p-2 cursor-pointer" data-value="A">فریم لس با چهارچوب</li>
+                <li class="custom-option p-2 cursor-pointer" data-value="B">فریم لس بدون چهارچوب</li>
+                <li class="custom-option p-2 cursor-pointer" data-value="C">تک جداره فریم دار</li>
+                <li class="custom-option p-2 cursor-pointer" data-value="D">دوجداره فریم دار</li>
+            </ul>
+        </div>
+
+        <div class="custom-select disabled" id="customSelect2">
+            <span class="font-IRANSansWebFaNum700 text-lg leading-8 text-StarDust800">پروفیل</span>
+            <div class="schemaSelects w-full max-w-[328px] border border-StarDust400 h-[48px] bg-StarDust50 flex items-center px-4 cursor-pointer">انتخاب کنید</div>
+            <ul class="custom-options" id="options2"></ul>
+        </div>
+
+        <div class="custom-select disabled" id="customSelect3">
+            <span class="font-IRANSansWebFaNum700 text-lg leading-8 text-StarDust800">شیشه</span>
+            <div class="schemaSelects w-full max-w-[328px] border border-StarDust400 h-[48px] bg-StarDust50 flex items-center px-4 cursor-pointer">انتخاب کنید</div>
+            <ul class="custom-options" id="options3"></ul>
+        </div>
+
+        <div class="custom-select disabled" id="customSelect4">
+            <span class="font-IRANSansWebFaNum700 text-lg leading-8 text-StarDust800">لولا</span>
+            <div class="schemaSelects w-full max-w-[328px] border border-StarDust400 h-[48px] bg-StarDust50 flex items-center px-4 cursor-pointer">انتخاب کنید</div>
+            <ul class="custom-options" id="options4"></ul>
+        </div>
+
+        <div class="custom-select disabled" id="customSelect5">
+            <span class="font-IRANSansWebFaNum700 text-lg leading-8 text-StarDust800">دستگیره</span>
+            <div class="schemaSelects w-full max-w-[328px] border border-StarDust400 h-[48px] bg-StarDust50 flex items-center px-4 cursor-pointer">انتخاب کنید</div>
+            <ul class="custom-options" id="options5"></ul>
+        </div>
+
+        <button id="submitButton" class="mt-16 openProductFormBtn2 w-full h-[38px] bg-Lochmara600 cursor-pointer text-white font-IRANSansWebFaNum400 text-base leading-7">ثبت</button>
+    </div>
+</div>
+
+<script>
+    const data = {
+        A: {
+            پروفیل: ["پودری", "آنادایز"],
+            شیشه: ["لمینیت 5+5 با طلق شفاف", "لمینیت 5+5 با طلق رنگی", "لمینیت 5+5 با طلق رنگی ترنسپرنت", "شیشه 10 میل سکوریت سوپرکلیر", "شیشه 10 میل سکوریت MQ", "شیشه 8 میل سکوریت سوپرکلیر", "شیشه 8 میل سکوریت MQ", "شیشه 8 میل سکوریت ساتینا"],
+            لولا: ["طرح مرونی استیل", "طرح مرونی مشکی", "مرونی اصل", "لولا هاتیک"],
+            دستگیره: ["فرودگاهی استیل", "فرودگاهی مشکی", "طرح هوپه", "طرح مرونی", "مرونی اصل"]
+        },
+        B: {
+            شیشه: ["لمینیت 5+5 با طلق شفاف", "لمینیت 5+5 با طلق رنگی", "لمینیت 5+5 با طلق رنگی ترنسپرنت", "شیشه 10 میل سکوریت سوپرکلیر", "شیشه 10 میل سکوریت MQ", "شیشه 8 میل سکوریت سوپرکلیر", "شیشه 8 میل سکوریت MQ", "شیشه 8 میل سکوریت ساتینا"],
+            لولا: ["دوطرف بازشو افقی استیل", "دوطرف بازشو عمودی استیل", "دوطرف بازشو عمودی مشکی"],
+            دستگیره: ["مکعبی 30 سانت استیل", "مکعبی 30 سانت مشکی", "استوانه 30 سانت استیل", "استوانه 30 سانت مشکی", "دستگیره تک سوراخ", "دستگیره کریستال"]
+        },
+        C: {
+            پروفیل: ["رنگ پودری", "رنگ آنادایز"],
+            شیشه: ["8 میل سکوریت سوپرکلیر", "شیشه 8 میل سکوریت MQ", "شیشه 8 میل سکوریت ساتینا", "لمینیت 5+5 با طلق رنگی", "لمینیت 5+5 با طلق رنگی ترنسپرنت"],
+            لولا: ["ترک", "اروپایی"],
+            دستگیره: ["ترک", "اروپایی"]
+        },
+        D: {
+            پروفیل: ["پودری", "آنادایز"],
+            شیشه: ["دو لایه سفید چاپی 5 میل", "دو لایه مشکی چاپی 5 میل", "دو لایه رنگی چاپی 5 میل"],
+            لولا: ["ترک", "اروپایی"],
+            دستگیره: ["ترک", "اروپایی"]
+        }
+    };
+
+    function toggleOptions(id) {
+        let select = document.getElementById('customSelect' + id);
+        if (!select.classList.contains('disabled')) {
+            select.classList.toggle('open');
+        }
+    }
+
+    function selectOption(id, value, dataValue) {
+        let select = document.getElementById('customSelect' + id);
+        select.querySelector('div').textContent = value;
+        select.classList.remove('open');
+
+        // پنهان کردن تمام سلکت‌های بعدی
+        for (let i = id + 1; i <= 5; i++) {
+            let nextSelect = document.getElementById('customSelect' + i);
+            if (nextSelect) {
+                nextSelect.classList.add('disabled');
+                nextSelect.querySelector('div').textContent = 'انتخاب کنید';
+                nextSelect.querySelector('.custom-options').innerHTML = '';
+            }
+        }
+
+        // بررسی وجود گزینه‌های بعدی
+        let nextStepKey = document.getElementById('customSelect' + (id + 1))?.querySelector('span')?.textContent.trim();
+        if (nextStepKey && data[dataValue][nextStepKey]) {
+            let nextSelect = document.getElementById('customSelect' + (id + 1));
+            if (nextSelect) {
+                nextSelect.classList.remove('disabled');
+                updateOptions(id + 1, dataValue);
+            }
+        } else {
+            // اگر مرحله بعدی وجود نداشت، به مرحله بعد از آن برو
+            let nextNextStepKey = document.getElementById('customSelect' + (id + 2))?.querySelector('span')?.textContent.trim();
+            if (nextNextStepKey && data[dataValue][nextNextStepKey]) {
+                let nextNextSelect = document.getElementById('customSelect' + (id + 2));
+                if (nextNextSelect) {
+                    nextNextSelect.classList.remove('disabled');
+                    updateOptions(id + 2, dataValue);
+                }
+            }
+        }
+
+        // فعال کردن دکمه ثبت اگر مرحله آخر انتخاب شده باشد
+        if (id === 5) {
+            document.getElementById('submitButton').disabled = false;
+        }
+    }
+
+    function updateOptions(id, dataValue) {
+        let optionsContainer = document.getElementById('options' + id);
+        optionsContainer.innerHTML = '';
+
+        let options = data[dataValue][document.getElementById('customSelect' + id).querySelector('span').textContent.trim()];
+
+        if (options) {
+            options.forEach(option => {
+                let li = document.createElement('li');
+                li.className = 'custom-option p-2 cursor-pointer';
+                li.textContent = option;
+                li.setAttribute('data-value', option);
+                li.addEventListener('click', () => selectOption(id, option, dataValue));
+                optionsContainer.appendChild(li);
+            });
+        }
+    }
+
+    document.querySelectorAll('.schemaSelects').forEach((element, i) => {
+        element.addEventListener('click', () => toggleOptions(i + 1));
+    });
+
+    document.querySelectorAll('#options1 .custom-option').forEach(option => {
+        option.addEventListener('click', () => {
+            selectOption(1, option.textContent, option.getAttribute('data-value'));
+        });
+    });
+
+
+
+
+</script>
+</body>
+</html>

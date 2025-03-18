@@ -1,0 +1,850 @@
+<basis run="atclient" triggers="db.filterChange" core="dbsource" source="basiscore"
+    schemaid="{##db.filterChange.schemaid|()##}" q="{##db.filterChange.q|()##}" name="db" mid="20" lid="1"
+    catid="{##cms.query.catid##}">
+    <member name="product-list" type="list" order="{##db.filterChange.sort|(id desc)##}">
+    </member>
+</basis>
+
+<basis core="callback" triggers="db.product-list" run="atclient" method="runproductFn"></basis>
+
+<basis core="dbsource" source="basiscore" name="db" lid="1" mid="20">
+    <member request="cat" type="tree" name="filter" parentid="205919" size="398x398"></member>
+</basis>
+<basis core="dbsource" source="basiscore" name="db" lid="1" mid="20" catid="[##cms.query.catid##]">
+    <member type="tree" name="SchemaList" request="schema" preview=""></member>
+</basis>
+<basis core="dbsource" source="basiscore" name="db" lid="1" request="seo">
+    <member name="list" type="list" request="cat" id="[##cms.query.catid##]"></member>
+</basis>
+
+<basis core="dbsource" source="basiscore" name="db" mid="20" lid="1" catid="[##cms.query.catid##]">
+    <member name="list11" type="list" size="398x398"> </member>
+</basis>
+
+<basis core="dbsource" source="accounting" name="db" collection="[##db.list11.id##]">
+    <member request="listminmaxprice" type="list" name="maxmin-filter"
+        postsql="select max(CAST(max AS INTEGER)) as max, min(CAST(min AS INTEGER)) as min   from [db.maxmin-filter]  ">
+    </member>
+</basis>
+
+<basis core="dbsource" run="atclient" source="accounting_eshop_main" name="db" method="ProductsInventoryList"
+    ownerid="[##cms.cms.ownerid##]" dmnid="[##cms.cms.domainid##]" catid="[##cms.query.catid##]" typeid="159"
+    triggers="db.product-list run.products" product_ids="{##db.product-list.id##}"
+    if="{##run.products.value|(false)##}">
+    <member request="list" type="list" name="ProductsInventoryList" />
+</basis>
+
+<!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="[##cms.cms.cdn##]/css/productListStyle.css" />
+    <basis core="print" datamembername="db.list">
+        <face>
+            <title>[##cms.seo.title|db.list.title##]</title>
+            <meta name="description" content="[##cms.seo.description|db.list.description##]" />
+        </face>
+    </basis>
+    <style>
+        .email-footer a>li {
+            color: #fff !important;
+        }
+
+        .product-item {
+            overflow: hidden;
+        }
+
+        .ordering button span,
+        .ordering button h2 {
+            white-space: nowrap;
+        }
+
+        .price-container .price {
+            display: flex;
+            align-items: center;
+            column-gap: 7px;
+        }
+
+        .ordering button {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .ordering>li>ul {
+            position: absolute;
+            top: 30px;
+            min-width: max-content;
+        }
+
+        .sorting-menu input[type="radio"] {
+            display: none;
+        }
+
+        .sorting-menu label {
+            cursor: pointer;
+            position: relative;
+            padding-right: 22px;
+            white-space: nowrap;
+        }
+
+        .sorting-menu label::before {
+            content: "";
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: transparent;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            transition: border-color 400ms ease;
+        }
+
+        .sorting-menu label::after {
+            content: "";
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: #05481f;
+            border: 2px solid #05481f;
+            border-radius: 50%;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%) scale(0);
+            transition: transform 400ms ease;
+        }
+
+        .sorting-menu input[type="radio"]:checked+label::before {
+            border-color: var(--primary-color);
+        }
+
+        .sorting-menu input[type="radio"]:checked+label::after {
+            transform: translate(-3%, -50%) scale(0.6);
+        }
+        .emptyProducts{
+            display: none;
+            margin-top: 30px;
+            direction: rtl;
+        }
+    </style>
+</head>
+
+<body>
+    <basis core="call" file="header.inc" />
+    <div class="gItems" style="display: none"></div>
+    <main>
+        <div class="container">
+            <div class="ordering-and-sorting">
+                <basis core="group">
+                    <basis core="dbsource" source="hosting" name="db" schemaid="[##db.SchemaList.gid##]">
+                        <member name="importantt" request="importantprpid" type="list" preview=""></member>
+                    </basis>
+
+                    <basis core="group">
+                        <basis core="dbsource" source="basiscore" schemaid="[##db.SchemaList.gid##]" name="db" lid="1"
+                            ownerid="9080">
+                            <member name="filter" type="tree" request="filterportal"
+                                postsql="select * from [db.filter] where id in ([##db.importantt.prpid##]) or parentid in ([##db.importantt.prpid##])">
+                            </member>
+                        </basis>
+                        <basis core="tree" datamembername="db.filter" idCol="fid" parentidCol="parentid" nullvalue="1">
+                            <!-- 
+                                    <layout>
+                                        <ul class="ordering">
+                                            @child
+                                        </ul>
+                                    </layout> -->
+                            <face level="2">
+                                <li class="collectionSdiv">
+                                    <!--value="@id"-->
+                                    <input class="checkboxList" type="checkbox" name="@title" value="@id" />
+
+                                    <label for="type_2" class="palentColor">@title</label>
+                                </li>
+                            </face>
+                            <face level="1">
+                                <li data-prp-id="@id" class="collectionSet">
+                                    <ul>
+                                        @child
+                                    </ul>
+                                    <button>
+                                        <h2>@title</h2>
+
+                                        <img src="[##cms.cms.cdn##]/images/down-icon.svg" alt="down" title="down"
+                                            loading="lazy" />
+                                    </button>
+                                </li>
+                            </face>
+                        </basis>
+                    </basis>
+                </basis>
+
+                <div class="sorting collectionSdiv">
+                    <ul class="sorting-menu">
+                        <!-- <li><a href="#" title="sort">متن مورد نظر</a></li> -->
+                        <li>
+                            <input type="radio" name="sort" id="s1" data-id="1" />
+                            <label for="s1">جدیدترین</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="sort" id="s2" data-id="2" />
+                            <label for="s2">قدیمی ترین</label>
+                        </li>
+                    </ul>
+                    <button>
+                        <span>مرتب سازی</span>
+                        <img src="[##cms.cms.cdn##]/images/down-icon.svg" alt="down" title="down" loading="lazy" />
+                    </button>
+                </div>
+            </div>
+            <div class="productListContainer">
+
+                <div class="emptyProducts">
+                    <p>
+                        محصولی موجود نیست.
+                    </p>
+                </div>
+                <div class="product-list-container product-inside">
+    
+                    <basis core="print" datamembername="db.product-list" run="atclient">
+                        <face>
+                            <script type="text/template">
+                    <input class="product-items" type="hidden" value="@id@" />
+                  </script>
+                        </face>
+                    </basis>
+                    <basis core="print" triggers="db.ProductsInventoryList" run="atclient"
+                        datamembername="db.ProductsInventoryList" OnRendered="OnRenderedProductsInventoryList">
+                        <face>
+                            <script type="text/template">
+    
+                    <div class="product-item product" data-inventoryid="@InventoryID@">
+                        <div class="img-container">
+                            <img src="/@image@" alt="@title@" title="@title@" loading="lazy" />
+                            <div class="hover-menu">
+                                <div class="hover-btns">
+                                    <button onclick="addProList(this,'@ProductID@','@title@','/@image@','@price@','@InventoryID@')">
+                                        <img src="[##cms.cms.cdn##]/images/product-hover-cart-icon.svg" alt="add"
+                                            loading="lazy" title="add" />
+                                        <span>اضافه به سبد خرید</span>
+                                    </button>
+                                    <button>
+                                        <img src="[##cms.cms.cdn##]/images/product-hover-like-icon.svg" alt="wish"
+                                            loading="lazy" title="wish" />
+                                        <span>اضافه به علاقه مندی ها</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="title-container">
+                            <a href="/@link@" title="@title@">
+                                <h1>@title@</h1>
+                            </a>
+                            <!--         <p>محصولات اسب</p> -->
+                        </div>
+                        <div class="price-container">
+                            <!-- <p class="off">20% تخفیف</p> -->
+                            <p class="price">
+                                <i class="inPrice">
+    
+                                <div class="new priceee">
+                                    @price@
+                                </div>
+                                </i>
+                                تومان</p>
+                            <!-- <p class="previous-price">3,500,000 تومان</p> -->
+                        </div>
+                    </div>
+                  </script>
+                        </face>
+                    </basis>
+                </div>
+            </div>
+        </div>
+    </main>
+    <span class="sortVal" style="display: none">{##db.filterChange.sortVal##}</span>
+    <span style="display: none" class="usedforid">{##db.ListOfChoices.usedforid##}</span>
+    <basis core="call" file="shoppingFly/scripts.inc"></basis>
+
+    <span class="catIdSchema" style="display: none">[##cms.query.catid##]</span>
+    <basis core="call" file="footer.inc" />
+    <script src="[##cms.cms.cdn##]/_js/jquery/jquery-3.4.0.min.js"></script>
+    <script src="[##cms.cms.cdn##]/_js/gsap.js"></script>
+
+    <script src="[##cms.cms.cdn##]/js/mainMenu.js"></script>
+    <!-- <script src="[##cms.cms.cdn##]/js/headerCart.js"></script> -->
+    <!--    <script src="/js/productListOrdering.js"></script> -->
+    <script src="[##cms.cms.cdn##]/js/counter.js"></script>
+    <script src="[##cms.cms.cdn##]/js/searchBox.js"></script>
+    <basis core="callback" triggers="db.filterChange" run="atclient"></basis>
+    <script>
+     
+        let checkboxList = document.querySelectorAll(".checkboxList");
+        let checkArr = [];
+        if (checkboxList.length>0) {
+            
+            let chackVal = checkboxList[0].value;
+            let schemaid = checkboxList[0]
+                .closest(".collectionSet")
+                .getAttribute("data-prp-id");
+            checkboxList.forEach((element) => {
+                element.addEventListener("change", function (params) {
+                    chackVal = element.value;
+                    if (element.checked == true) {
+                        console.log("true");
+                        checkArr.push(chackVal);
+                    } else {
+                        console.log("false");
+                        checkArr.pop(chackVal);
+                    }
+                    schemaid = element
+                        .closest(".collectionSet")
+                        .getAttribute("data-prp-id");
+                    console.log(element.closest(".collectionSet"));
+                    $bc.setSource("db.filterChange", {
+                        schemaid: "[##db.SchemaList.gid##]",
+                        schemas: checkArr,
+                        q: `filter:|${schemaid}:${checkArr}`,
+                        bcValue: true,
+                        bcCheck: false,
+                        sort: "id asc",
+                        sortVal: "2",
+                    });
+    
+                    var legchecked = $('input[type="checkbox"]:checked').length;
+                    if (!legchecked) {
+                        $bc.setSource("db.filterChange", {
+                            schemaid: "[##db.SchemaList.gid##]",
+                            schemas: checkArr,
+                            q: ``,
+                            bcValue: true,
+                            bcCheck: false,
+                            sort: "id asc",
+                            sortVal: "2",
+                        });
+                    }
+                });
+            });
+        }
+
+        let sortingmenu = document.querySelectorAll(".sorting-menu input");
+
+        if (sortingmenu) {
+            
+            sortingmenu.forEach((element) => {
+                element.addEventListener("change", function (params) {
+                    var legchecked = $('input[type="checkbox"]:checked').length;
+                    if (element.getAttribute("data-id") == "1") {
+                        if (!legchecked) {
+                            $bc.setSource("db.filterChange", {
+                                schemaid: "[##db.SchemaList.gid##]",
+                                schemas: checkArr,
+                                q: ``,
+                                bcValue: true,
+                                bcCheck: false,
+                                sort: "id desc",
+                                sortVal: "1",
+                            });
+                        } else {
+                            $bc.setSource("db.filterChange", {
+                                schemaid: "[##db.SchemaList.gid##]",
+                                schemas: checkArr,
+                                q: `filter:|${schemaid}:${checkArr}`,
+                                bcValue: true,
+                                bcCheck: false,
+                                sort: "id desc",
+                                sortVal: "1",
+                            });
+                        }
+                    } else {
+                        if (!legchecked) {
+                            $bc.setSource("db.filterChange", {
+                                schemaid: "[##db.SchemaList.gid##]",
+                                schemas: checkArr,
+                                q: ``,
+                                bcValue: true,
+                                bcCheck: false,
+                                sort: "id asc",
+                                sortVal: "2",
+                            });
+                        } else {
+                            $bc.setSource("db.filterChange", {
+                                schemaid: "[##db.SchemaList.gid##]",
+                                schemas: checkArr,
+                                q: `filter:|${schemaid}:${checkArr}`,
+                                bcValue: true,
+                                bcCheck: false,
+                                sort: "id asc",
+                                sortVal: "2",
+                            });
+                        }
+                    }
+                });
+            });
+           
+           
+        }
+       
+       
+        let inPrice = document.querySelectorAll(".inPrice");
+        if (inPrice) {
+            inPrice.forEach((element) => {
+                console.log(element.innerHTML);
+                let newP = element.innerHTML.trim();
+                console.log("newp ", newP);
+                if (!newP) {
+                    element.parentElement.innerHTML = "موجود نیست";
+                }
+            });
+        }
+
+        function addProList(el, proId, proTitle, img,price,InventoryID) {
+            let proPrice = Number(
+                el.parentElement.parentElement.parentElement.parentElement.querySelector(
+                    ".price-container .price i"
+                ).innerHTML
+            );
+            let allproductd = document.querySelectorAll(".allproductd");
+            var uniqueNames = [];
+            allproductd.forEach((element) => {
+                productsArray.push(Number(element.innerHTML));
+            });
+            $.each(productsArray, function (i, el) {
+                if ($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
+            });
+            console.log('el',el);
+            console.log('id',proId);
+            console.log('img',img);
+            console.log('title',proTitle);
+            console.log('price',price);
+            console.log('InventoryID',InventoryID);
+//    $bc.setSource("cms.add", true);
+//             $bc.setSource("db.add", {
+//                 'id': proId,
+//                 'price': price,
+//                 'ptitle': proTitle,
+//                 'inventoryid': InventoryID,
+//                 'image': img,
+//                 'rowid': 1,
+//                 'quantity': 1,
+//             });
+$bc.setSource("cms.add", true);
+            $bc.setSource("db.add", {
+                'id': InventoryID,
+                'price': price,
+                'ptitle': proTitle,
+                'productid': proId,
+                'image': img,
+                'rowid': 1,
+                'quantity':1,
+                'children':0,
+                'discount':0
+            });
+
+        }
+
+        const listBtn = document.querySelectorAll(
+            ".ordering li button , .sorting button"
+        );
+
+        let currentMenu;
+        let prpList = [];
+        listBtn.forEach((item) => {
+            item.addEventListener("click", (event) => {
+                currentMenu = event.currentTarget.previousElementSibling;
+                if (
+                    item.parentElement.querySelector("ul").classList.contains("active")
+                ) {
+                    event.currentTarget.previousElementSibling.classList.remove(
+                        "active"
+                    );
+                } else {
+                    $(".ordering li ul").removeClass("active");
+
+                    event.currentTarget.previousElementSibling.classList.add("active");
+                }
+                //menuOverlay.classList.add('active');
+            });
+        });
+
+        // let gItems = document.querySelectorAll('.gItems span');
+        // let glist = [];
+        // gItems.forEach((element) => {
+        //     let strel = element.innerHTML;
+        //     glist.push(strel);
+        // });
+        // const result = glist.filter(checkAdult);
+
+        // function checkAdult(item) {
+        //     if (item) {
+        //         return item;
+        //     }
+        // }
+
+        // jQuery.fn.extend({
+        //     getCollectionListItemStream: function () {
+        //         var str = 'filter:';
+        //         var delemiter = '|';
+        //         var del = ':';
+        //         var del1 = ',';
+        //         $(this).each(function () {
+        //             if ($(this).find('input').is(':checked')) {
+        //                 str += delemiter;
+        //                 var prpId = $(this).attr('data-prp-id');
+        //                 str += prpId;
+        //                 str += del;
+        //                 $(this).find(':checked').each(function () {
+        //                     var atr = $(this).attr('value')
+        //                     str += atr;
+        //                     str += del1;
+        //                 });
+        //                 str = str.slice(0, -1)
+        //             }
+        //             else {
+        //                 var prpId = $(this).attr('data-prp-id');
+        //             }
+        //         });
+        //         return str;
+        //     }, postback: function (q, url, extraData) {
+        //         var legchecked = $('input[type="checkbox"]:checked').length;
+        //         if (!legchecked) {
+        //             q = "";
+        //         }
+        //         console.log("q", q);
+
+        //         var form = $('<form>').attr('action', url).append($('<input type="hidden" id="q" name="q">').attr('value', q));
+        //         for (var name in extraData) {
+        //             form.append($('<input type="hidden" id="' + name + '" name="' + name + '">').attr('value', extraData[name]))
+        //         }
+        //         $(this).first().append(form);
+        //         $.ajax({
+        //             url: url, type: "GET", data: form.serialize(), success: function (response) {
+        //                 $('.product-list-container').empty().html(response);
+
+        //             }
+        //         });
+
+        //     }
+        // });
+
+        // $(document).ready(function (c) {
+        //     $(".collectionSdiv input").click(function () {
+
+        //         //   $(".load_bg").show();
+        //         var $checkboxes = $('.sorting input[type="radio"]');
+        //         var sort = $checkboxes.filter(':checked').attr("data-id");
+        //         if ($checkboxes.prop('checked') == false) {
+        //             if (sort == undefined) {
+        //                 sort = ''
+        //             }
+        //             console.log("sort", sort);
+        //             var c = $(".collectionSet").getCollectionListItemStream();
+        //             $("body").postback(c, "/headerTest.inc?refresh=true", {
+        //                 schemaid: "[##db.SchemaList.gid##]",
+        //                 catid: "[##cms.query.catid##]",
+        //                 lid: "[##cms.query.lid##]",
+        //                 // sort : sort,
+        //                 type: "1"
+
+        //             })
+        //         } else {
+
+        //             if (sort == undefined) {
+        //                 sort = ''
+        //             }
+        //             console.log("sort", sort);
+        //             var c = $(".collectionSet").getCollectionListItemStream();
+        //             $("body").postback(c, "/headerTest.inc?refresh=true", {
+        //                 schemaid: "[##db.SchemaList.gid##]",
+        //                 catid: "[##cms.query.catid##]",
+        //                 lid: "[##cms.query.lid##]",
+        //                 sort: sort,
+        //                 type: "2"
+
+        //             })
+        //         }
+        //     })
+
+        // });
+    </script>
+    <script>
+        function runproductFn(args) {
+            console.log("args", args.source);
+            const resultJson = args.source?.rows;
+            if (resultJson.length > 0) {
+                $bc.setSource("run.products", true);
+            } else {
+                $bc.setSource("run.products", false);
+            }
+        }
+
+        function idsRender(params) {
+            const product_list = document.querySelectorAll(".product-items");
+            const product_cdate = document.querySelectorAll(".product-items");
+            console.log("proca", product_list);
+            var productid = new Array();
+            var productcdate = new Array();
+            for (var i = 0; i < product_list.length; i++) {
+                productid.push(product_list[i].value);
+                productcdate.push(product_cdate[i].cdate);
+            }
+            $bc.setSource("db.product_ids", [
+                {
+                    productid: productid,
+                    productcdate: productcdate,
+                    bcValue: true,
+                },
+            ]);
+        }
+
+        function callback_sourceProductPromotions(args) {
+            const resultJson = args.source?.rows;
+            for (const element of resultJson) {
+                for (
+                    var i = 0;
+                    i < document.getElementsByClassName("product").length;
+                    i++
+                ) {
+                    const product = document.querySelectorAll(".product")[i];
+
+                    const product_value = product.getAttribute("data-inventoryid");
+                    console.log("product_value", product_value);
+                    if (product_value) {
+                        const product_value_splited = product_value.split(",");
+                        for (var j = 0; j < product_value_splited.length; j++) {
+                            if (product_value_splited[j] == element.inventory_id) {
+                                if (product.querySelector(".promotion-content")) {
+                                    if (
+                                        element.discount_percent >
+                                        parseInt(
+                                            product
+                                                .querySelector(".promotion-content")
+                                                .querySelector(".promotion-discount_percent")
+                                                .innerText
+                                        )
+                                    ) {
+                                        product.querySelector(".promotion-content").remove();
+                                        product.querySelector(".cost").insertAdjacentHTML(
+                                            "afterend",
+                                            `<div class="promotion-content"><span class="promotion-title">
+                                                ${element.title}</span><span><span class="promotion-discount_percent">${element.discount_percent}</span><span class="discount-percent">%</span></span></div>`
+                                        );
+                                    }
+                                } else {
+                                    product
+                                        .querySelector(".cost")
+                                        .insertAdjacentHTML(
+                                            "afterend",
+                                            `<div class="promotion-content"><span class="promotion-title">${element.title}</span><span><span class="promotion-discount_percent">${element.discount_percent}</span><span class="discount-percent">%</span></span></div>`
+                                        );
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        async function Inventory_Price($data) {
+            if ($data.count > 0) {
+                if ($data.price > 0) {
+                    if ($data.MarketPrice > 0) {
+                        return `<div class="del"><span>${new Intl.NumberFormat().format(
+                            $data.MarketPrice
+                        )}</span><span class="unit">${unit_value}</span></div>
+                    <div class="cost-final"><span> ${new Intl.NumberFormat().format(
+                            $data.price
+                        )}</span><span class="unit">${unit_value}</span></div>
+                    `;
+                    } else {
+                        return `<span>${new Intl.NumberFormat().format(
+                            $data.price
+                        )}</span><span class="unit">${unit_value}</span>`;
+                    }
+                } else {
+                    if ($data.MarketPrice > 0) {
+                        return `<div class="del"><span>${new Intl.NumberFormat().format(
+                            $data.MarketPrice
+                        )}</span><span class="unit">${unit_value}</span></div>
+                    <div class="cost-final"><span> ${new Intl.NumberFormat().format(
+                            $data.price
+                        )}</span><span class="unit">${unit_value}</span></div>
+                    `;
+                    } else {
+                        return `<div class="unavailable"><span>ناموجود</span></div>`;
+                    }
+                }
+            } else {
+                return `<div class="unavailable"><span>ناموجود</span></div>`;
+            }
+        }
+
+        async function OnRenderedProductsInventoryList(e) {
+
+            let sortVal = document.querySelector(".sortVal").innerHTML;
+            if (sortVal == "2") {
+                var main = document.querySelector(".product-list-container");
+
+                switching = false;
+                let b = main.querySelectorAll(".product");
+                // Loop through all list-items:
+                let shouldSwitch = false;
+                for (i = 0; i < b.length - 1; i++) {
+                    // start by saying there should be no switching:
+                    /* check if the next item should
+                        switch place with the current item: */
+
+                    if (
+                        Number(b[i].getAttribute("data-inventoryid")) <
+                        Number(b[i + 1].getAttribute("data-inventoryid"))
+                    ) {
+                        /* if next item is numerically
+                              lower than current item, mark as a switch
+                              and break the loop: */
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                if (shouldSwitch) {
+                    /* If a switch has been marked, make the switch
+                        and mark the switch as done: */
+                    b[i].parentNode.insertBefore(b[i + 1], b[i]);
+                    switching = true;
+                }
+            } 
+            else if (sortVal == "1") {
+                var main = document.querySelector(".product-list-container");
+
+                switching = false;
+                let b = main.querySelectorAll(".product");
+                // Loop through all list-items:
+                let shouldSwitch = false;
+                for (i = 0; i < b.length - 1; i++) {
+                    // start by saying there should be no switching:
+                    /* check if the next item should
+                        switch place with the current item: */
+
+                    if (
+                        Number(b[i].getAttribute("data-inventoryid")) >
+                        Number(b[i + 1].getAttribute("data-inventoryid"))
+                    ) {
+                        /* if next item is numerically
+                              lower than current item, mark as a switch
+                              and break the loop: */
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                if (shouldSwitch) {
+                    /* If a switch has been marked, make the switch
+                        and mark the switch as done: */
+                    b[i].parentNode.insertBefore(b[i + 1], b[i]);
+                    switching = true;
+                }
+        
+        
+   
+            }
+
+            console.log("onrender", e);
+            const product_inside = document.querySelector(".product-inside");
+            const product_list = product_inside.querySelectorAll(".product");
+            var inventoryid = new Array();
+            let dataInventor = document.querySelectorAll(".product-inside .product");
+            let dataInventorArr=[]
+            console.log("dataInventor",dataInventor);
+            dataInventor.forEach(element => {
+                let elData = element.getAttribute("data-inventoryid")
+                if (elData) {
+                    dataInventorArr.push(elData)
+                }
+            });
+            console.log("dataInventor" , dataInventor);
+           if (dataInventorArr.length==0) {
+            $(".product").css("display" , "none")
+            document.querySelector(".emptyProducts").style.display="block"
+        }
+        else{
+               document.querySelector(".emptyProducts").style.display="none"
+
+           }
+            for (var i = 0; i < product_list.length; i++) {
+                if (product_list[i].getAttribute("data-inventoryid") !== undefined) {
+                    inventoryid.push(product_list[i].getAttribute("data-inventoryid"));
+                }
+
+            }
+            $bc.setSource("db.inventory_ids", [
+                {
+                    inventoryid: inventoryid,
+                    bcValue: true,
+                },
+            ]);
+       
+       
+            
+            let shopProItem = document.querySelectorAll(".product-item")
+shopProItem.forEach(element => {
+    console.log(element);
+    let pInItem= element.querySelector(".title-container h1")
+    console.log("pInItem" , pInItem);
+    if (pInItem.innerHTML==""||pInItem.innerHTML=="-") {
+        element.style.display="none"
+    }
+});
+       
+       
+        }
+
+        $.fn.digits = function () {
+            return this.each(function () {
+                $(this).text(
+                    $(this)
+                        .text()
+                        .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
+                );
+            });
+        };
+        $(".new-price").digits();
+
+        function myFunctionprice() {
+            $(".filter-products-inner").empty();
+
+            var min = $(".minPrice").val();
+            var max = $(".maxPrice").val();
+
+            if ($("#custom").prop("checked") == false) {
+                $(".filter-products-inner").load(
+                    "/filter-list.bc?type=1&min=" +
+                    min +
+                    "&max=" +
+                    max +
+                    "&catid=[##cms.query.catid##]"
+                );
+            } else {
+                $(".filter-products-inner").load(
+                    "/filter-list.bc?type=2&min=" +
+                    min +
+                    "&max=" +
+                    max +
+                    "&catid=[##cms.query.catid##]"
+                );
+            }
+
+            $("html, body").animate({ scrollTop: 450 }, "slow");
+            $("body").append(
+                '<div class="lds-ellipsis1"> <div class="backkkkk"><img src="/images/logo.png" alt="logo"><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div></div>'
+            );
+            setTimeout(function () {
+                $(".lds-ellipsis1").remove();
+            }, 1400);
+        }
+    </script>
+</body>
+
+</html>

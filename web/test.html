@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نقشه تاریک با CartoDB</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map 
+        { 
+            height: 100vh;
+             width: 100%; 
+        }
+    #map {
+        height: 100vh;
+        width: 100%;
+        position: relative;
+    }
+    .map-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #b1b1b1; /* رنگی نزدیک به #58585A با شفافیت */
+        pointer-events: none; /* جلوگیری از مسدود کردن تعاملات نقشه */
+        z-index: 10; /* بالاتر از نقشه ولی پایین‌تر از مارکرها */
+    }
+</style>
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div class="map-overlay"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map').setView([35.773583, 51.459778], 12);
+        const config = {
+            center: [35.773583, 51.459778], // مختصات دقیق تجریش
+            zoom: 18,
+            tileLayer: {
+                url: 'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png',
+                options: {
+                    maxZoom: 21,
+                    minZoom: 15,
+                    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                    detectRetina: true
+                }
+            },
+           
+        };
+        const customIcon = L.icon({
+                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41]
+            });
+        // استفاده از لایه تاریک CartoDB
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: '© OpenStreetMap contributors © CartoDB'
+        }).addTo(map);
+
+
+        L.marker(config.center, { icon: customIcon })
+                .addTo(map)
+            
+
+                
+    </script>
+</body>
+</html>
